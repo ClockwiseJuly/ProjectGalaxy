@@ -75,4 +75,4 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
 # 忽略特定大文件
-/Assets/Font/Uranus_Pixel_11Px.asset
+Uranus_Pixel_11Px.asset

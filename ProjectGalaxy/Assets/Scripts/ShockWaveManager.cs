@@ -5,11 +5,13 @@ using UnityEngine;
 
 public class ShockWaveManager : MonoBehaviour
 {
+    [Header("(按下空格测试)")]
     [SerializeField] private float shockWaveTime = 0.75f;
     private Coroutine shockWaveCoroutine;
     [SerializeField] private Material shockWaveMaterial;
     
     private static int waveDistanceFromCenter = Shader.PropertyToID("_WaveDistanceFormCenter");
+    private int shockWaveIndex = 1;
 
     private void Awake()
     {
@@ -27,6 +29,7 @@ public class ShockWaveManager : MonoBehaviour
     public void CallShockWave()
     {
         shockWaveCoroutine = StartCoroutine(ShockWaveAction(-0.1f, 1f));
+        AudioManager.Instance.PlaySFX(shockWaveIndex);
     }
 
     private IEnumerator ShockWaveAction(float startPos , float endPos)

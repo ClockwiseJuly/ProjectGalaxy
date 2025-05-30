@@ -2,12 +2,15 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class AudioManager : Singleton<AudioManager>
 {
+    [FormerlySerializedAs("sfx1")]
     [Header("===== 音效 =====")]
     [SerializeField] private AudioSource[] sfx;
+    [SerializeField] private AudioSource[] sfxExtra;
     [Header("===== 背景音乐 =====")]
     [SerializeField] private AudioSource[] bgm;
 
@@ -48,6 +51,15 @@ public class AudioManager : Singleton<AudioManager>
         {
             sfx[_sfxIndex].pitch = Random.Range(0.85f, 1.1f); //随机音高
             sfx[_sfxIndex].Play();
+        }
+    }
+
+    public void PlayExtraSFX(int _sfxIndex)
+    {
+        if (_sfxIndex < sfxExtra.Length)
+        {
+            sfxExtra[_sfxIndex].pitch = Random.Range(0.85f, 1.1f); //随机音高
+            sfxExtra[_sfxIndex].Play();
         }
     }
     

@@ -15,21 +15,32 @@ public class GameManager : Singleton<GameManager>
     {
         base.Start();
 
-        GameEvent.OnTraverse += HandleOnTraverse; //订阅事件
+        
+        //订阅事件
+        GameEvent.OnTraverse += HandleOnTraverse; 
+        GameEvent.OnTraverseCompleted += HandleOnTraverseCompleted; 
     }
 
 
+    //跃迁中调用
     private void HandleOnTraverse()
     {
-        Debug.Log("GameManager : 处理跃迁");
+        Debug.Log("GameManager : 跃迁");
         HandleOnWormhole(true);
 
 
     }
 
-    private void HandleOnWormhole(bool isOnWormhole)
+    //跃迁完成调用
+    private void HandleOnTraverseCompleted()
     {
-        onTraverse = isOnWormhole;
+        Debug.Log("GameManager : 跃迁完成");
+        HandleOnWormhole(false);
+    }
+
+    private void HandleOnWormhole(bool _isOnWormhole)
+    {
+        onTraverse = _isOnWormhole;
         
         if (onTraverse)
         {

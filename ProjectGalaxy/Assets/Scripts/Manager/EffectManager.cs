@@ -90,6 +90,10 @@ public class EffectManager : MonoBehaviour
             yield return null;
             
         }
+        
+        
+        
+        shockWaveMaterial.SetFloat(waveDistanceFromCenter, -0.1f);
 
     }
 
@@ -97,23 +101,45 @@ public class EffectManager : MonoBehaviour
     {
         Debug.Log("调用穿越协程");
         //AudioManager.Instance.PlaySFX(traverseIndex);
-        
+    
         traverseMaterial.SetFloat(traverseLambda, startPos);
-        //Debug.Log("traverseLambda is " + traverseLambda);
-        
-        float lerpedAmount = 0f;
+    
         float elapsedTime = 0f;
-        
+        float recoverTime = 0.3f; // 默认回退时间 = 前进时间
+    
+        // 从 startPos 到 endPos
         while (elapsedTime < traverseTime)
         {
             elapsedTime += Time.deltaTime;
-            lerpedAmount = Mathf.Lerp(startPos, endPos, elapsedTime / shockWaveTime);
+            float lerpedAmount = Mathf.Lerp(startPos, endPos, elapsedTime / traverseTime);
             traverseMaterial.SetFloat(traverseLambda, lerpedAmount);
-            
             yield return null;
-            
         }
+    
+        // 确保最终到达 endPos
+        traverseMaterial.SetFloat(traverseLambda, endPos);
+        
+        yield return new WaitForSeconds(1f);
+        PlayParticle();
+        GameEvent.OnTraverse?.Invoke(); //调用事件
+        AudioManager.Instance.PlaySFX(1);
+        
+        elapsedTime = 0f; // 重置计时器
+    
+        // 从 endPos 回到 startPos
+        while (elapsedTime < recoverTime)
+        {
+            elapsedTime += Time.deltaTime;
+            float lerpedAmount = Mathf.Lerp(endPos, startPos, elapsedTime / recoverTime);
+            traverseMaterial.SetFloat(traverseLambda, lerpedAmount);
+            yield return null;
+        }
+    
+        // 确保最终回到 startPos
+        traverseMaterial.SetFloat(traverseLambda, startPos);
     }
+    
+
     
     private IEnumerator ShockWaveThenTraverseAction(float shockStart, float shockEnd, float traverseStart, float traverseEnd)
     {
@@ -156,7 +182,7 @@ public class EffectManager : MonoBehaviour
             Debug.LogWarning("No ParticleSystem found on prefab!");
         }
 
-        // 5. 可选：粒子播放完成后自动销毁
+        //粒子播放完成后自动销毁
         if (particleSystem != null)
             Destroy(particleInstance, particleSystem.main.duration);
     }

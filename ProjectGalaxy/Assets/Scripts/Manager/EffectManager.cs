@@ -19,8 +19,8 @@ public class EffectManager : MonoBehaviour
     
     private static int waveDistanceFromCenter = Shader.PropertyToID("_WaveDistanceFormCenter");
     private static int traverseLambda = Shader.PropertyToID("_traverseFx");
-    private int shockWaveIndex = 1;
-    private int traverseIndex = 3;
+    [SerializeField]private int shockWaveIndex = 1;
+    [SerializeField]private int traverseIndex = 3;
     
     [Header("===== 特效 =====")]
     public ParticleSystem traverseParticle;

@@ -93,4 +93,10 @@ public class AudioManager : Singleton<AudioManager>
             bgm[i].Stop();
         }
     }
+
+    public void ExplosionSound()
+    {
+        PlaySFX(5);
+        CameraFxManager.Instance.StartContinuousShake();
+    }
 }

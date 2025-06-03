@@ -86,7 +86,11 @@ public class EffectManager : MonoBehaviour
     {
         Debug.Log("调用冲击波协程");
         
+        CameraFxManager.Instance.Shake();
+        
         AudioManager.Instance.PlaySFX(shockWaveIndex);
+        CameraFxManager.Instance.Shake();
+        
         shockWaveMaterial.SetFloat(waveDistanceFromCenter, startPos);
         //Debug.Log("waveDistanceFromCenter is " + waveDistanceFromCenter);
 
@@ -115,6 +119,8 @@ public class EffectManager : MonoBehaviour
         Debug.Log("调用穿越协程");
         //AudioManager.Instance.PlaySFX(traverseIndex);
         
+        CameraFxManager.Instance.Shake();
+        
         CallShockWave();
 
         yield return new WaitForSeconds(shockWaveTime);
@@ -140,6 +146,7 @@ public class EffectManager : MonoBehaviour
         TraverseParticle();
         GameEvent.OnTraverse?.Invoke(); //调用事件
         AudioManager.Instance.PlaySFX(1);
+        CameraFxManager.Instance.Shake();
         
         elapsedTime = 0f; // 重置计时器
     
@@ -185,6 +192,7 @@ public class EffectManager : MonoBehaviour
         TraverseParticle();
         GameEvent.OnTraverseCompleted?.Invoke(); //调用事件
         AudioManager.Instance.PlaySFX(1);
+        CameraFxManager.Instance.Shake();
         
         elapsedTime = 0f; // 重置计时器
     

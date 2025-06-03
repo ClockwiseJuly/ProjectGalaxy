@@ -14,7 +14,7 @@ public class FungusDialogueManager : MonoBehaviour
     private void Start()
     {
         sayDialogue.SetActive(true);
-        openWhileDialoguePanel.SetActive(true);
+        //openWhileDialoguePanel.SetActive(true);
     }
 
     private void OnEnable()

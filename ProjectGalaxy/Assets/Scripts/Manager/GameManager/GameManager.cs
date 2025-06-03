@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UIElements;
 
 public class GameManager : Singleton<GameManager>
 {
-    public bool onTraverse = false; //玩家是否在虫洞
+    [FormerlySerializedAs("onTraverse")] public bool playerOnWormHole = false; //玩家是否在虫洞
     public GameObject planetBackground;
     public GameObject wormholeBackground;
     public GameObject planet;
@@ -28,7 +29,7 @@ public class GameManager : Singleton<GameManager>
         Debug.Log("GameManager : 跃迁");
         HandleOnWormhole(true);
 
-
+        UIManager.Instance.TogglePause();
     }
 
     //跃迁完成调用
@@ -36,13 +37,18 @@ public class GameManager : Singleton<GameManager>
     {
         Debug.Log("GameManager : 跃迁完成");
         HandleOnWormhole(false);
+        
+        
+        UIManager.Instance.TogglePause();
+        
+        
     }
 
     private void HandleOnWormhole(bool _isOnWormhole)
     {
-        onTraverse = _isOnWormhole;
+        playerOnWormHole = _isOnWormhole;
         
-        if (onTraverse)
+        if (playerOnWormHole)
         {
             planetBackground.SetActive(false);
             planet.SetActive(false);

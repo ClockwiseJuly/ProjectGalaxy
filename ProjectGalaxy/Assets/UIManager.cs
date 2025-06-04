@@ -12,7 +12,7 @@ public class UIManager : Singleton<UIManager>
     public float stayTime = 42f; 
     public bool isPaused = false; //是否暂停
 
-    [Header("===== UI引用 =====")] 
+    [Header("===== 倒计时UI =====")] 
     public GameObject countdownUI;
     public Slider countdownSlider;
     public TextMeshProUGUI countdownText;
@@ -28,19 +28,28 @@ public class UIManager : Singleton<UIManager>
     private float currentTime; // 当前剩余时间
     private int lastDisplayedSecond = -1; // 用于跟踪上次显示的秒数
     
+    [Header("===== 背包 =====")] 
+    public GameObject inventoryMenu;
+
+
+    [Header("===== 设置面板 =====")] 
+    public GameObject SettingMenu;
+    
     protected override void Start()
     {
         base.Start();
         
         // 初始化时间
         currentTime = stayTime;
+        // // 设置DSlider范围
+        // countdownSlider.minValue = 0;
+        // countdownSlider.maxValue = stayTime;
         
-        // 设置Slider范围
-        countdownSlider.minValue = 0;
-        countdownSlider.maxValue = stayTime;
+        inventoryMenu.gameObject.SetActive(false);
         
         UpdateUI();
-        
+        //UpdateForPressEsc();
+
     }
     
     void Update()
@@ -108,6 +117,22 @@ public class UIManager : Singleton<UIManager>
             countdownUI.SetActive(true);
         }
     }
+
+    void UpdateForPressEsc()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            TogglePause();
+            if (isPaused)
+            {
+                SettingMenu.SetActive(true);
+            }
+            else
+            {
+                SettingMenu.SetActive(false);
+            }
+        }
+    }
     
     //切换暂停状态
     public void TogglePause()
@@ -123,9 +148,17 @@ public class UIManager : Singleton<UIManager>
         }
         else
         {
+            
+            
             countdownUI.SetActive(false);
             confirmTraverseUI.SetActive(true);
         }
+        Time.timeScale = isPaused ? 0 : 1;
+        
+    }
+
+    public void CheckIfInWormHole()
+    {
         
     }
 

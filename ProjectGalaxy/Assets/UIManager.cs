@@ -150,7 +150,7 @@ public class UIManager : Singleton<UIManager>
             countdownUI.SetActive(false);
             confirmTraverseUI.SetActive(true);
         }
-        Time.timeScale = isPaused ? 0 : 1;
+        //Time.timeScale = isPaused ? 0 : 1;
         
     }
 

@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class EffectManager : MonoBehaviour
 {
-    [Header("(按下空格测试)")]
+    [Header("(shock wave)")]
     [SerializeField] private float shockWaveTime = 0.75f;
     [SerializeField] private float traverseTime = 1f;
     private Coroutine shockWaveCoroutine;

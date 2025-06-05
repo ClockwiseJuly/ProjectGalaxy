@@ -1,8 +1,13 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:ProjectGalaxy/Assets/Font/Uranus_Pixel_11Px SDF.asset.meta
 guid: 331312764c63f4d4995028a261047b82
 NativeFormatImporter:
+========
+guid: c4803907aff4bce4d841f147d1c6d561
+folderAsset: yes
+DefaultImporter:
+>>>>>>>> main:ProjectGalaxy/Assets/Prefabs.meta
   externalObjects: {}
-  mainObjectFileID: 11400000
   userData: 
   assetBundleName: 
   assetBundleVariant: 

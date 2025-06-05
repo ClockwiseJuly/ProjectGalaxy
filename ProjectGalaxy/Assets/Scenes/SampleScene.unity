@@ -367,7 +367,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-<<<<<<< HEAD
 <<<<<<< Updated upstream
 --- !u!1 &610309130
 GameObject:
@@ -1723,14 +1722,11 @@ RectTransform:
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
 >>>>>>> Stashed changes
-=======
->>>>>>> Clockwisejuly
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 519420032}
-<<<<<<< HEAD
 <<<<<<< Updated upstream
   - {fileID: 1181145156}
   - {fileID: 1544599112}
@@ -1746,5 +1742,3 @@ SceneRoots:
   - {fileID: 336188017}
   - {fileID: 1420549023}
 >>>>>>> Stashed changes
-=======
->>>>>>> Clockwisejuly

@@ -8,9 +8,12 @@ using UnityEngine.UI;
 
 public class UIManager : Singleton<UIManager>
 {
+    [Header("===== 角色状态 =====")]
+    
     [Header("===== 计时器设置 =====")]
     public float stayTime = 42f; 
     public bool isPaused = false; //是否暂停
+    
 
     [Header("===== 倒计时UI =====")] 
     public GameObject countdownUI;
@@ -31,8 +34,10 @@ public class UIManager : Singleton<UIManager>
     public GameObject inventoryMenu;
 
 
-    [Header("===== 设置面板 =====")] 
+    [Header("===== 面板 =====")] 
     public GameObject SettingMenu;
+    public GameObject OSPanel;
+    public bool isEsc = false; //是否按下Esc键
     
     protected override void Start()
     {
@@ -47,12 +52,14 @@ public class UIManager : Singleton<UIManager>
         inventoryMenu.gameObject.SetActive(false);
         
         UpdateUI();
-        //UpdateForPressEsc();
+        
 
     }
     
     void Update()
     {
+        UpdateForPressEsc();
+        
         if (!isPaused && currentTime > 0)
         {
             //倒计时
@@ -76,7 +83,7 @@ public class UIManager : Singleton<UIManager>
     {
         int seconds = (int)currentTime;
         countdownText.text = seconds.ToString("00") + "s";
-        countdownSlider.value = currentTime;
+        countdownSlider.value  += Time.deltaTime;
         
         // 检查是否需要更新颜色或触发动画
         if (seconds <= 10)
@@ -119,23 +126,30 @@ public class UIManager : Singleton<UIManager>
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            TogglePause();
-            if (isPaused)
-            {
-                SettingMenu.SetActive(true);
-            }
-            else
-            {
-                SettingMenu.SetActive(false);
-            }
+            ToggleEsc();
+
         }
+
+        if (OSPanel.activeInHierarchy)
+        {
+            isPaused = true;
+
+        }
+        else
+        {
+            isPaused = false;
+        }
+        
+        Time.timeScale = isPaused ? 0 : 1;
+        
+        
     }
     
     //切换暂停状态
     public void TogglePause()
     {
         isPaused = !isPaused;
-        Debug.Log(isPaused ? "计时器已暂停" : "计时器继续");
+        Debug.Log(isEsc ? "计时已暂停" : "计时已开始");
         if (!isPaused)
         {
             countdownUI.SetActive(true);
@@ -151,6 +165,24 @@ public class UIManager : Singleton<UIManager>
             confirmTraverseUI.SetActive(true);
         }
         //Time.timeScale = isPaused ? 0 : 1;
+        
+    }
+    
+    public void ToggleEsc()
+    {
+        isEsc = !isEsc;
+        Debug.Log(isEsc ? "已打开设置面板" : "已关闭设置面板");
+        if (isEsc)
+        {
+            SettingMenu.SetActive(true);
+        }
+        else
+        {
+            SettingMenu.SetActive(false);
+        }
+        
+        
+        Time.timeScale = isEsc ? 0 : 1;
         
     }
 

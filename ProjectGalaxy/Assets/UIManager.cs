@@ -17,7 +17,6 @@ public class UIManager : Singleton<UIManager>
     public Slider countdownSlider;
     public TextMeshProUGUI countdownText;
     public GameObject confirmTraverseUI;
-    //public Button pauseButton;
     
     [Header("===== 动画设置 =====")]
     public Color normalColor = Color.white;
@@ -41,9 +40,9 @@ public class UIManager : Singleton<UIManager>
         
         // 初始化时间
         currentTime = stayTime;
-        // // 设置DSlider范围
-        // countdownSlider.minValue = 0;
-        // countdownSlider.maxValue = stayTime;
+        // 设置Slider范围
+        countdownSlider.minValue = 0;
+        countdownSlider.maxValue = stayTime;
         
         inventoryMenu.gameObject.SetActive(false);
         
@@ -91,9 +90,7 @@ public class UIManager : Singleton<UIManager>
                 // 跳跃动画
                 countdownText.transform.DOComplete(); // 完成任何正在进行的动画
                 countdownText.transform.DOPunchScale(Vector3.one * jumpStrength, jumpDuration);
-                
-                // 也可以添加其他效果，比如闪烁
-                // countdownText.DOColor(Color.white, jumpDuration/2).From(warningColor);
+
             }
         }
         else

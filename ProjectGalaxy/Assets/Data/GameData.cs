@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,6 +19,9 @@ public class GameData : ScriptableObject
     
     [SerializeField]
     public List<Item> warehouse = new List<Item>(); // 背包物品列表
+    
+    [SerializeField]
+    public bool playedIntro = false;
     
     
 }

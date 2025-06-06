@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using Fungus;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,11 +10,16 @@ using Sequence = DG.Tweening.Sequence;
 
 public class IntroPlayer : MonoBehaviour
 {
-    [Header("基本设置")]
+    [Header("基本设置")] 
+    public GameObject introPlayer;
+    public Flowchart flowchart;
     public float fadeDuration = 0.5f; // 淡入持续时间
     public float defaultDelay = 0.3f; // 默认图片间延迟
     public float groupDelay = 1f; // 组间延迟
     public bool loop = false; // 是否循环
+    public bool canClick = false; // 是否可以点击
+    
+    
     
     [Header("图片组")]
     public List<ImageGroup> imageGroups = new List<ImageGroup>();
@@ -26,6 +32,7 @@ public class IntroPlayer : MonoBehaviour
         public Image image;
         [Tooltip("负数将使用默认延迟")]
         public float customDelay = -1f;
+        public int sfxIndex;
     }
 
     [System.Serializable]
@@ -36,9 +43,17 @@ public class IntroPlayer : MonoBehaviour
 
     private void Start()
     {
-        Initialize();
-        PlaySequence();
+        if (!GameDataManager.Instance.gameData.playedIntro)
+        {
+            introPlayer.SetActive(true);
+            Initialize();
+            PlaySequence();
+        }
+        
+
     }
+
+
 
     private void Initialize()
     {
@@ -96,6 +111,19 @@ public class IntroPlayer : MonoBehaviour
                 
                 // 添加淡入动画
                 _sequence.Append(setting.image.DOFade(1f, fadeDuration));
+                
+                if (setting.sfxIndex > 0)
+                {
+                    
+                    _sequence.AppendCallback(() => {
+                        AudioManager.Instance.PlaySFX(setting.sfxIndex);
+                        if (setting.sfxIndex == 5)
+                        {
+                            CameraFxManager.Instance.IntroShake();
+                        }
+                        
+                    });
+                }
             }
         }
         
@@ -108,6 +136,8 @@ public class IntroPlayer : MonoBehaviour
         // 循环时重置状态
         _sequence.OnComplete(() => {
             if (loop) Initialize();
+            
+            canClick = true;
         });
     }
 
@@ -133,5 +163,16 @@ public class IntroPlayer : MonoBehaviour
         {
             _sequence.Kill();
         }
+    }
+
+    public void OnClick()
+    {
+        if(!canClick)
+            return;
+        
+        GameDataManager.Instance.gameData.playedIntro = true;
+        introPlayer.gameObject.SetActive(false);
+        flowchart.ExecuteBlock("Start");
+        
     }
 }

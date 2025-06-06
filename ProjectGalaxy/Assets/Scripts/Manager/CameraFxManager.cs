@@ -10,6 +10,7 @@ public class CameraFxManager : Singleton<CameraFxManager>
     
     [Header("UI References")]
     public RectTransform targetCanvas; // 拖入需要震动的Canvas
+    public RectTransform introCanvas; 
     
     [Header("Default Settings")]
     public float defaultDuration = 0.5f;
@@ -64,6 +65,32 @@ public class CameraFxManager : Singleton<CameraFxManager>
         vibrato = vibrato < 0 ? defaultVibrato : vibrato;
     
         targetCanvas.DOShakeAnchorPos(
+            duration: duration,
+            strength: strength,
+            vibrato: vibrato,
+            randomness: 90,
+            fadeOut: fadeOut
+        ).OnComplete(ResetPosition);
+    }
+
+    public void IntroShake(float duration = -1f,
+        float strength = -1f,
+        int vibrato = -1,
+        bool fadeOut = true)
+    {
+        if (introCanvas == null)
+        {
+            Debug.LogError("Target Canvas未分配！", this);
+            return;
+        }
+        
+        StopContinuousShake(); // 停止持续抖动
+    
+        duration = duration < 0 ? defaultDuration : duration;
+        strength = strength < 0 ? defaultStrength : strength;
+        vibrato = vibrato < 0 ? defaultVibrato : vibrato;
+    
+        introCanvas.DOShakeAnchorPos(
             duration: duration,
             strength: strength,
             vibrato: vibrato,

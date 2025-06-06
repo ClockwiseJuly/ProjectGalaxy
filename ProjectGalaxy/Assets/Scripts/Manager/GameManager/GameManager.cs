@@ -22,7 +22,7 @@ public class GameManager : Singleton<GameManager>
         GameEvent.OnTraverseCompleted += HandleOnTraverseCompleted; 
     }
 
-
+    
     //跃迁中调用
     private void HandleOnTraverse()
     {

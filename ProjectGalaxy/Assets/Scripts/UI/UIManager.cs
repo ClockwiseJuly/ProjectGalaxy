@@ -149,7 +149,7 @@ public class UIManager : Singleton<UIManager>
     public void TogglePause()
     {
         isPaused = !isPaused;
-        Debug.Log(isEsc ? "计时已暂停" : "计时已开始");
+        Debug.Log(isPaused ? "计时已暂停" : "计时已开始");
         if (!isPaused)
         {
             countdownUI.SetActive(true);

@@ -14,6 +14,9 @@ public class GameManager : Singleton<GameManager>
     public GameObject wormholeBackground;
     public GameObject planet;
     
+    [Header("===== 选择星球 =====")]
+    public GameObject selectedPlanetPanel;
+    
     [Header("===== Fungus =====")]
     public Flowchart flowchart;
     
@@ -91,17 +94,22 @@ public class GameManager : Singleton<GameManager>
         
     }
 
+    public void SeletcPlanet()
+    {
+        
+    }
+
     
     
 
     public void DialogueOSPanelTutorial()
     {
-        flowchart.ExecuteBlock("OsPanelTutorial");
+        flowchart.ExecuteBlock("T2");
     }
     
     public void DialogueTraverseTutorial()
     {
-        flowchart.ExecuteBlock("TraverseTutorial");
+        flowchart.ExecuteBlock("T3");
     }
     
 }

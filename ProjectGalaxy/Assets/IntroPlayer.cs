@@ -172,7 +172,7 @@ public class IntroPlayer : MonoBehaviour
         
         GameDataManager.Instance.gameData.playedIntro = true;
         introPlayer.gameObject.SetActive(false);
-        flowchart.ExecuteBlock("Start");
+        flowchart.ExecuteBlock("T1");
         
     }
 }

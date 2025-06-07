@@ -56,8 +56,8 @@ public class UIManager : Singleton<UIManager>
         //InitializeCanvasStates();
 
         UpdateUI();
-        
 
+        Time.timeScale = 1;
     }
     
     void Update()
@@ -147,8 +147,8 @@ public class UIManager : Singleton<UIManager>
             isPaused = false;
         }
         
-        if(GameDataManager.Instance.gameData.osPaneltutorialtaught)
-            Time.timeScale = isPaused ? 0 : 1;
+        //if(GameDataManager.Instance.gameData.osPaneltutorialtaught)
+            //Time.timeScale = isPaused ? 0 : 1;
         
         
     }

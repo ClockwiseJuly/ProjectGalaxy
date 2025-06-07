@@ -1,13 +1,29 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameDataManager : Singleton<GameDataManager>
 {
     public GameData gameData;
     
+    [Header("===== 状态 =====")]
+    public int maxHP = 100;
+    public int nowHP = 100;
+    public int maxSAN =100;
+    public int nowSAN = 100;
+    public int maxShipHP = 100;
+    public int nowShipHP = 100;
+    public int maxShipFuel = 100;
+    public int nowShipFuel = 100;
+    public Slider HPSlider;
+    public Slider SANSlider;
+    public Image shipHPImg;
+    public Image shipFuelImg;
     
-
+    
+    
 
     protected override void Awake()
     {
@@ -21,5 +37,37 @@ public class GameDataManager : Singleton<GameDataManager>
         
     }
 
+    private void Update()
+    {
+        HPSlider.value = nowHP;
+        SANSlider.value = nowSAN;
+    }
+
+    public int ChangeHP(int value)
+    {
+        
+        return nowHP += value;
+    }
+
+    public int ChangeSAN(int value)
+    {
+        return nowSAN += value;
+    }
+
+    public int ChangeShipHP(int value)
+    {
+        return nowShipHP += value;
+    }
+
+    public int ChangeShipFuel(int value)
+    {
+        return nowShipFuel += value;
+    }
+
+    public void UpdateShipHPAndFuel()
+    {
+        shipHPImg.fillAmount = nowShipHP / (float)maxShipHP;
+        shipFuelImg.fillAmount = nowShipFuel / (float)maxShipFuel;
+    }
   
 }

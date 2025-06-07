@@ -27,12 +27,15 @@ public class OptionClick : MonoBehaviour, IPointerClickHandler
                 // 将选中的星球数据保存到静态管理器
                 StarDataManager.SetSelectedStar(maskImage.sprite, starIndex);
                 
-                // 切换到星球交互场景
-                SceneManager.LoadScene("StarInteract");
-            }
-            else
-            {
-                Debug.LogError("无法获取星球贴图信息！");
+                // 通过UIManager激活Canvas StarInteract
+                if (UIManager.Instance != null)
+                {
+                    UIManager.Instance.ShowStarInteractCanvas();
+                }
+                else
+                {
+                    Debug.LogError("UIManager.Instance为空！");
+                }
             }
         }
     }

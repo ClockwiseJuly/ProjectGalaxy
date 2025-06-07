@@ -5,57 +5,75 @@ using UnityEngine.SceneManagement;
 public class StarInteractManager : MonoBehaviour
 {
     [Header("星球交互设置")]
-    [SerializeField] private GameObject starInteractPrefab;  // starinteract预制体
-    [SerializeField] private Transform spawnPoint;           // 生成位置（可选，默认为屏幕中央）
-    
-    private GameObject currentStarInstance;                  // 当前生成的星球实例
-    
+    [SerializeField] private GameObject starInteractPrefab;
+    [SerializeField] private Transform spawnPoint;
+
+    private GameObject currentStarInstance;
+
     void Start()
     {
+        // 不在Start中创建星球，等待被调用
+    }
+
+    // 新增：当Canvas StarInteract被激活时调用
+    void OnEnable()
+    {
+        Debug.Log("StarInteractManager: OnEnable被调用");
+        Debug.Log($"StarInteractManager: GameObject名称: {gameObject.name}");
+        Debug.Log($"StarInteractManager: GameObject激活状态: {gameObject.activeInHierarchy}");
+        
         // 检查是否有有效的选中星球数据
         if (!StarDataManager.HasValidSelectedStar())
         {
-            Debug.LogError("没有有效的星球数据！返回选择场景。");
-            SceneManager.LoadScene("StarSelect");
+            Debug.LogWarning("没有有效的星球数据！请先选择一个星球。");
             return;
         }
-        
+
         // 生成星球交互对象
         CreateStarInteract();
+        Debug.Log("已生成可交互星球对象。");
+    }
+
+    // 新增：当Canvas StarInteract被禁用时调用
+    void OnDisable()
+    {
+        // 清理当前星球实例
+        if (currentStarInstance != null)
+        {
+            Destroy(currentStarInstance);
+            currentStarInstance = null;
+        }
     }
     
     // 创建星球交互对象
-    private void CreateStarInteract()
+    void CreateStarInteract()
     {
         if (starInteractPrefab == null)
         {
             Debug.LogError("starInteractPrefab 未设置！");
             return;
         }
-        
-        // 确定生成位置（如果没有指定spawnPoint，则使用屏幕中央）
+    
+        // 确定生成位置
         Vector3 spawnPosition = spawnPoint != null ? spawnPoint.position : Vector3.zero;
-        
-        // 生成星球对象
+    
+        // 实例化星球预制体
         currentStarInstance = Instantiate(starInteractPrefab, spawnPosition, Quaternion.identity);
-        
+        Debug.Log($"已生成星球对象: {currentStarInstance.name} 在位置: {currentStarInstance.transform.position}"); // 添加这行调试
+
         // 设置星球贴图
         SpriteRenderer spriteRenderer = currentStarInstance.GetComponent<SpriteRenderer>();
         if (spriteRenderer != null)
         {
             spriteRenderer.sprite = StarDataManager.SelectedStarSprite;
-            Debug.Log($"成功设置星球贴图：{StarDataManager.SelectedStarSprite.name}");
+            Debug.Log($"已设置星球贴图：{StarDataManager.SelectedStarSprite.name}");
         }
-        else
-        {
-            Debug.LogError("starInteractPrefab 缺少 SpriteRenderer 组件！");
-        }
-        
-        // 设置Animator Controller
+    
+        // 设置动画控制器
         SetAnimatorController();
-        
-        // 设置星球名称
-        currentStarInstance.name = $"StarInteract_{StarDataManager.SelectedStarFolderName}";
+    
+        currentStarInstance.name = $"InteractiveStar_{StarDataManager.SelectedStarIndex}";
+        Debug.Log("已生成可交互星球对象。");
     }
     
     // 设置Animator Controller

@@ -38,6 +38,7 @@ public class MouseHover : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler
         AudioManager.Instance.PlaySFX(4);
         
         _scaleTween?.Kill(); // 打断之前的动画
+        
         _scaleTween = transform.DOScale(_originalScale * hoverScale, scaleDuration)
             .SetEase(easeType)
             .SetUpdate(true); // 无视Time.timeScale
@@ -47,6 +48,6 @@ public class MouseHover : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler
     {
         _scaleTween?.Kill();
         _scaleTween = transform.DOScale(_originalScale, scaleDuration)
-            .SetEase(easeType);
+            .SetEase(easeType).SetUpdate(true);
     }
 }

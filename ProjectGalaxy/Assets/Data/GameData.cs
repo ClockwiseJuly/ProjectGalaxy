@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [CreateAssetMenu(fileName = "GameData", menuName = "Game Data", order = 1)]
 public class GameData : ScriptableObject
@@ -22,6 +23,7 @@ public class GameData : ScriptableObject
     
     [SerializeField]
     public bool playedIntro = false;
+    public bool osPaneltutorialtaught = false;
     
     
 }

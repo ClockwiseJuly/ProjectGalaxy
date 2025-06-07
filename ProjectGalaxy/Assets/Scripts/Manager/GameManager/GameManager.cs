@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Fungus;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -12,6 +14,9 @@ public class GameManager : Singleton<GameManager>
     public GameObject wormholeBackground;
     public GameObject planet;
     
+    [Header("===== Fungus =====")]
+    public Flowchart flowchart;
+    
     protected override void Start()
     {
         base.Start();
@@ -20,16 +25,31 @@ public class GameManager : Singleton<GameManager>
         //订阅事件
         GameEvent.OnTraverse += HandleOnTraverse; 
         GameEvent.OnTraverseCompleted += HandleOnTraverseCompleted; 
+        GameEvent.OnFinishSelectingPlanet += HandleOnTraverseCompleted; 
     }
 
-    
+    private void Update()
+    {
+        if (wormholeBackground.activeInHierarchy)
+        {
+            playerOnWormHole = true;
+        }
+        else
+        {
+            playerOnWormHole = false;
+        }
+        
+        
+    }
+
+
     //跃迁中调用
     private void HandleOnTraverse()
     {
         Debug.Log("GameManager : 跃迁");
         HandleOnWormhole(true);
 
-        UIManager.Instance.TogglePause();
+        UIManager.Instance.TogglePause(true);
     }
 
     //跃迁完成调用
@@ -39,7 +59,7 @@ public class GameManager : Singleton<GameManager>
         HandleOnWormhole(false);
         
         
-        UIManager.Instance.TogglePause();
+        //UIManager.Instance.TogglePause(false);
         
         
     }
@@ -63,8 +83,25 @@ public class GameManager : Singleton<GameManager>
         
 
     }
+
+    private void HandleOnFinishSelectingPlanet()
+    {
+        Debug.Log("GameManager: 已选择星球");
+        
+        
+    }
+
     
     
+
+    public void DialogueOSPanelTutorial()
+    {
+        flowchart.ExecuteBlock("OsPanelTutorial");
+    }
     
+    public void DialogueTraverseTutorial()
+    {
+        flowchart.ExecuteBlock("TraverseTutorial");
+    }
     
 }

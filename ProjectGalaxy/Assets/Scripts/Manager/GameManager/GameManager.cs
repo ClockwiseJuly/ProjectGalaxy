@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using Fungus;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Serialization;
-using UnityEngine.UIElements;
+
+
 
 public class GameManager : Singleton<GameManager>
 {
@@ -13,6 +15,7 @@ public class GameManager : Singleton<GameManager>
     public GameObject planetBackground;
     public GameObject wormholeBackground;
     public GameObject planet;
+    public Image nowPlanetImage;
     
     [Header("===== 选择星球 =====")]
     public GameObject selectedPlanetPanel;
@@ -28,7 +31,7 @@ public class GameManager : Singleton<GameManager>
         //订阅事件
         GameEvent.OnTraverse += HandleOnTraverse; 
         GameEvent.OnTraverseCompleted += HandleOnTraverseCompleted; 
-        GameEvent.OnFinishSelectingPlanet += HandleOnTraverseCompleted; 
+        GameEvent.OnFinishSelectingPlanet += HandleOnFinishSelectingPlanet; 
     }
 
     private void Update()
@@ -87,11 +90,11 @@ public class GameManager : Singleton<GameManager>
 
     }
 
-    private void HandleOnFinishSelectingPlanet()
+    private void HandleOnFinishSelectingPlanet(Image img)
     {
         Debug.Log("GameManager: 已选择星球");
-        
-        
+        nowPlanetImage.sprite = img.sprite;
+
     }
 
     public void SeletcPlanet()

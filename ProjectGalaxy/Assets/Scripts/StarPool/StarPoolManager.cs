@@ -120,7 +120,7 @@ public class StarPoolManager : MonoBehaviour
                 // 从可用列表中移除已选择的星球
                 starGroups[groupIndex].availableIndices.RemoveAt(randomIndex);
                 
-                Debug.Log($"第{groupIndex + 1}组选择了星球: {selectedStarInfos[groupIndex].folderName}");
+                //Debug.Log($"第{groupIndex + 1}组选择了星球: {selectedStarInfos[groupIndex].folderName}");
             }
             else
             {
@@ -176,7 +176,7 @@ public class StarPoolManager : MonoBehaviour
         PlayerPrefs.SetString(SAVE_KEY, jsonData);
         PlayerPrefs.Save();
         
-        Debug.Log("星球池状态已保存");
+        //Debug.Log("星球池状态已保存");
     }
     
     // 从PlayerPrefs加载星球池状态
@@ -192,7 +192,7 @@ public class StarPoolManager : MonoBehaviour
                 starGroups[i].availableIndices = new List<int>(saveData.groupAvailableIndices[i]);
             }
             
-            Debug.Log("星球池状态已加载");
+            //Debug.Log("星球池状态已加载");
         }
     }
     

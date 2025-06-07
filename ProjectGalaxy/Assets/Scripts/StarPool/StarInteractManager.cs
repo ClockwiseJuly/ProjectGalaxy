@@ -1,94 +1,227 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
+using TMPro;
 
-// 星球交互场景管理器
+// 星球交互场景管理器 - 专注于管理UI和星球设置
 public class StarInteractManager : MonoBehaviour
 {
     [Header("星球交互设置")]
-    [SerializeField] private GameObject starInteractPrefab;
-    [SerializeField] private Transform spawnPoint;
-
-    private GameObject currentStarInstance;
-
+    [SerializeField] private GameObject canvasStarInteract;
+    [SerializeField] private Image starImage;
+    [SerializeField] private Animator starAnimator;
+    
+    [Header("星球信息显示UI")]
+    [SerializeField] private GameObject starNamePanel; // 星球名称面板
+    [SerializeField] private TextMeshProUGUI starNameText; // 星球名称文本
+    
+    [SerializeField] private GameObject starInfoPanel; // 星球介绍面板
+    [SerializeField] private TextMeshProUGUI starInfoText; // 星球介绍文本
+    
+    [Header("调试设置")]
+    [SerializeField] private bool enableDebugLog = true;
+    
+    // 星球悬浮事件委托
+    public static event Action<string, string> OnStarHover; // 鼠标悬浮时触发（名称，介绍）
+    public static event Action OnStarExit; // 鼠标离开时触发
+    
     void Start()
     {
-        // 不在Start中创建星球，等待被调用
+        // 只有管理器才订阅事件
+        OnStarHover += ShowStarInfo;
+        OnStarExit += HideStarInfo;
+        
+        // 初始化时隐藏信息面板
+        HideStarInfo();
+        
+        if (enableDebugLog)
+        {
+            Debug.Log("StarInteractManager: 管理器初始化完成，已订阅UI事件");
+        }
     }
-
-    // 新增：当Canvas StarInteract被激活时调用
+    
     void OnEnable()
     {
-        Debug.Log("StarInteractManager: OnEnable被调用");
-        Debug.Log($"StarInteractManager: GameObject名称: {gameObject.name}");
-        Debug.Log($"StarInteractManager: GameObject激活状态: {gameObject.activeInHierarchy}");
+        // 订阅事件
+        OnStarHover += ShowStarInfo;
+        OnStarExit += HideStarInfo;
         
-        // 检查是否有有效的选中星球数据
-        if (!StarDataManager.HasValidSelectedStar())
+        if (enableDebugLog)
         {
-            Debug.LogWarning("没有有效的星球数据！请先选择一个星球。");
+            Debug.Log("StarInteractManager OnEnable 被调用");
+        }
+    
+        // 只有在有有效星球数据时才设置星球交互对象
+        if (StarDataManager.HasValidSelectedStar())
+        {
+            SetupStarInteract();
+            // if (enableDebugLog)
+            // {
+            //     Debug.Log("已设置可交互星球对象。");
+            // }
+        }
+        else
+        {
+            if (enableDebugLog)
+            {
+                //Debug.Log("暂无有效星球数据，跳过星球交互对象设置。");
+            }
+        }
+    }
+    
+    void OnDestroy()
+    {
+        // 取消订阅事件
+        OnStarHover -= ShowStarInfo;
+        OnStarExit -= HideStarInfo;
+    }
+    
+    // 移除 IPointerEnterHandler 和 IPointerExitHandler 接口实现
+    // 移除 OnPointerEnter 和 OnPointerExit 方法
+    
+    #region UI显示控制
+    
+    /// <summary>
+    /// 显示星球信息面板
+    /// </summary>
+    /// <param name="starName">星球名称</param>
+    /// <param name="description">星球描述</param>
+    private void ShowStarInfo(string starName, string description)
+    {
+        if (enableDebugLog)
+        {
+            Debug.Log($"StarInteractManager: ShowStarInfo被调用 - 名称：{starName}，描述：{description}");
+        }
+        
+        // 显示星球名称面板
+        if (starNamePanel != null && starNameText != null)
+        {
+            if (enableDebugLog)
+            {
+                Debug.Log("StarInteractManager: 设置星球名称面板");
+            }
+            starNameText.text = starName;
+            starNamePanel.SetActive(true);
+        }
+        else
+        {
+            Debug.LogError("StarInteractManager: StarNamePanel或StarNameText为空！请在Inspector中设置引用。");
+        }
+        
+        // 显示星球介绍面板
+        if (starInfoPanel != null && starInfoText != null)
+        {
+            if (enableDebugLog)
+            {
+                Debug.Log("StarInteractManager: 设置星球描述面板");
+            }
+            starInfoText.text = description;
+            starInfoPanel.SetActive(true);
+        }
+        else
+        {
+            Debug.LogError("StarInteractManager: StarInfoPanel或StarInfoText为空！请在Inspector中设置引用。");
+        }
+    }
+    
+    /// <summary>
+    /// 隐藏星球信息面板
+    /// </summary>
+    private void HideStarInfo()
+    {
+        if (enableDebugLog)
+        {
+            Debug.Log("StarInteractManager: 隐藏星球信息面板");
+        }
+        
+        if (starNamePanel != null)
+        {
+            starNamePanel.SetActive(false);
+        }
+        
+        if (starInfoPanel != null)
+        {
+            starInfoPanel.SetActive(false);
+        }
+    }
+    
+    #endregion
+    
+    #region 星球设置
+    
+    /// <summary>
+    /// 设置星球交互对象
+    /// </summary>
+    void SetupStarInteract()
+    {
+        if (canvasStarInteract == null)
+        {
+            Debug.LogError("canvasStarInteract 未设置！请在Inspector中指定Canvas Scene下的starinteract对象。");
             return;
         }
 
-        // 生成星球交互对象
-        CreateStarInteract();
-        Debug.Log("已生成可交互星球对象。");
-    }
+        // 激活starinteract对象
+        canvasStarInteract.SetActive(true);
+        Debug.Log($"已激活星球对象: {canvasStarInteract.name}");
 
-    // 新增：当Canvas StarInteract被禁用时调用
-    void OnDisable()
-    {
-        // 清理当前星球实例
-        if (currentStarInstance != null)
-        {
-            Destroy(currentStarInstance);
-            currentStarInstance = null;
-        }
-    }
-    
-    // 创建星球交互对象
-    void CreateStarInteract()
-    {
-        if (starInteractPrefab == null)
-        {
-            Debug.LogError("starInteractPrefab 未设置！");
-            return;
-        }
-    
-        // 确定生成位置
-        Vector3 spawnPosition = spawnPoint != null ? spawnPoint.position : Vector3.zero;
-    
-        // 实例化星球预制体
-        currentStarInstance = Instantiate(starInteractPrefab, spawnPosition, Quaternion.identity);
-        Debug.Log($"已生成星球对象: {currentStarInstance.name} 在位置: {currentStarInstance.transform.position}"); // 添加这行调试
-
-        // 设置星球贴图
-        SpriteRenderer spriteRenderer = currentStarInstance.GetComponent<SpriteRenderer>();
-        if (spriteRenderer != null)
-        {
-            spriteRenderer.sprite = StarDataManager.SelectedStarSprite;
-            Debug.Log($"已设置星球贴图：{StarDataManager.SelectedStarSprite.name}");
-        }
-    
+        // 设置星球贴图到Image组件
+        SetupStarImage();
+        
         // 设置动画控制器
         SetAnimatorController();
-    
-        currentStarInstance.name = $"InteractiveStar_{StarDataManager.SelectedStarIndex}";
-        Debug.Log("已生成可交互星球对象。");
+        
+        //Debug.Log("已设置可交互星球对象。");
     }
     
-    // 设置Animator Controller
-    private void SetAnimatorController()
+    /// <summary>
+    /// 设置星球图像
+    /// </summary>
+    private void SetupStarImage()
     {
-        if (currentStarInstance == null)
+        Image targetImage = starImage;
+        
+        // 如果没有手动指定，尝试自动获取
+        if (targetImage == null)
         {
-            Debug.LogError("currentStarInstance 为空，无法设置Animator Controller！");
-            return;
+            targetImage = canvasStarInteract.GetComponent<Image>();
         }
         
-        Animator animator = currentStarInstance.GetComponent<Animator>();
+        if (targetImage != null)
+        {
+            targetImage.sprite = StarDataManager.SelectedStarSprite;
+            //Debug.Log($"已设置星球贴图：{StarDataManager.SelectedStarSprite.name}");
+            
+            // 确保Raycast Target已启用
+            if (!targetImage.raycastTarget)
+            {
+                Debug.LogWarning("Image组件的Raycast Target未启用，鼠标事件可能无法触发！");
+            }
+        }
+        else
+        {
+            Debug.LogError("canvasStarInteract 缺少 Image 组件！");
+        }
+    }
+    
+    /// <summary>
+    /// 设置Animator Controller
+    /// </summary>
+    private void SetAnimatorController()
+    {
+        Animator animator = starAnimator;
+        
+        // 如果没有手动指定，尝试自动获取
         if (animator == null)
         {
-            Debug.LogError("starInteractPrefab 缺少 Animator 组件！");
+            animator = canvasStarInteract.GetComponent<Animator>();
+        }
+        
+        if (animator == null)
+        {
+            Debug.LogError("canvasStarInteract 缺少 Animator 组件！");
             return;
         }
         
@@ -116,7 +249,13 @@ public class StarInteractManager : MonoBehaviour
         }
     }
     
-    // 返回星球选择场景
+    #endregion
+    
+    #region 场景管理
+    
+    /// <summary>
+    /// 返回星球选择场景
+    /// </summary>
     public void ReturnToStarSelect()
     {
         // 清除星球数据
@@ -126,9 +265,21 @@ public class StarInteractManager : MonoBehaviour
         SceneManager.LoadScene("StarSelect");
     }
     
-    void OnDestroy()
+    #endregion
+
+    /// <summary>
+    /// 触发星球悬停事件的公共方法
+    /// </summary>
+    public static void TriggerStarHover(string starName, string starDescription)
     {
-        // 场景销毁时清除数据（可选）
-        // StarDataManager.ClearSelectedStar();
+        OnStarHover?.Invoke(starName, starDescription);
+    }
+
+    /// <summary>
+    /// 触发星球退出事件的公共方法
+    /// </summary>
+    public static void TriggerStarExit()
+    {
+        OnStarExit?.Invoke();
     }
 }

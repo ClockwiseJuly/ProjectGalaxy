@@ -151,7 +151,7 @@ public class GameManager : Singleton<GameManager>//,IPointerClickHandler
             return;
         }
 
-        
+        collectResources.gameObject.SetActive(true);
         collectResources.StartResourceGame();
     }
 

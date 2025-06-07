@@ -497,7 +497,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &92406870
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1328,7 +1328,8 @@ MonoBehaviour:
     y: -340
     width: 1114
     height: 859
-  selectedBlocks: []
+  selectedBlocks:
+  - {fileID: 208951104}
   selectedCommands: []
   variables: []
   description: 
@@ -6300,7 +6301,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &666968370
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6967,6 +6968,7 @@ MonoBehaviour:
   selectedPlanetPanel: {fileID: 0}
   flowchart: {fileID: 208951076}
   collectResources: {fileID: 178294539}
+  randomEvent: {fileID: 0}
   risingTextPrefab: {fileID: 2243543638217430883, guid: 777e67b9f6aa16244aac7dab98661f23, type: 3}
   riseHeight: 100
   animationDuration: 1
@@ -7525,7 +7527,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &779296742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14919,6 +14921,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   globalInstance: 0
+  collectResources: {fileID: 178294539}
   stayTime: 42
   isPaused: 0
   countdownUI: {fileID: 1686265857}
@@ -15274,7 +15277,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1696803211972764989, guid: c711596da2b063c4fbdead77452f91c1, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1829015283159818973, guid: c711596da2b063c4fbdead77452f91c1, type: 3}
       propertyPath: m_Name
@@ -15314,15 +15317,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4470204250212268665, guid: c711596da2b063c4fbdead77452f91c1, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4470204250212268665, guid: c711596da2b063c4fbdead77452f91c1, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4470204250212268665, guid: c711596da2b063c4fbdead77452f91c1, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4470204250212268665, guid: c711596da2b063c4fbdead77452f91c1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -18941,6 +18944,10 @@ PrefabInstance:
     - target: {fileID: 7693172725105051820, guid: 0ebd555348f7e4e4d8b556f06a44a69a, type: 3}
       propertyPath: m_Name
       value: "\u968F\u673A\u4E8B\u4EF6"
+      objectReference: {fileID: 0}
+    - target: {fileID: 7693172725105051820, guid: 0ebd555348f7e4e4d8b556f06a44a69a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

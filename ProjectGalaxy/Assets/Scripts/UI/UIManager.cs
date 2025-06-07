@@ -10,7 +10,8 @@ using UnityEngine.UI;
 
 public class UIManager : Singleton<UIManager>
 {
-    [Header("===== 角色状态 =====")]
+    [Header("===== 采集资源 =====")]
+    public CollectResources collectResources;
     
     [Header("===== 计时器设置 =====")]
     public float stayTime = 42f; 
@@ -77,6 +78,8 @@ public class UIManager : Singleton<UIManager>
                 currentTime = 0;
                 Debug.Log("跃迁倒计时结束！");
                 //可以添加结束时的逻辑
+                collectResources.EndGame();
+                EffectManager.Instance.CallTraverse();
             }
         }
     }
@@ -200,6 +203,11 @@ public class UIManager : Singleton<UIManager>
     {
         isPaused = true;
     }
+
+    public void Continue()
+    {
+        isPaused = false;
+    }
     
     //重置倒计时
     public void ResetTimer()
@@ -208,6 +216,24 @@ public class UIManager : Singleton<UIManager>
         isPaused = false;
         countdownText.color = normalColor; // 重置颜色
         UpdateUI();
+    }
+
+    public void InitCountDown()
+    {
+        countdownUI.SetActive(true);
+        countdownSlider.gameObject.SetActive(true);
+        
+        // 初始化时间
+        currentTime = stayTime;
+        // 设置Slider范围
+        countdownSlider.minValue = 0;
+        countdownSlider.maxValue = stayTime;
+    }
+
+    public void CloseCountDown()
+    {
+        countdownUI.SetActive(false);
+        countdownSlider.gameObject.SetActive(false);
     }
     
      

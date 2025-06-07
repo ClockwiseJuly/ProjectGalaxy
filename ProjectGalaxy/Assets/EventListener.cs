@@ -14,8 +14,16 @@ public class EventListener : MonoBehaviour
         OSPanelTutorial
         
     }
-    
-    
+
+    private void Start()
+    {
+        if (GameDataManager.Instance.gameData.osPaneltutorialtaught)
+        {
+            osTaught = true;
+        }
+    }
+
+
     public EventType eventType;
 
     private void OnEnable()

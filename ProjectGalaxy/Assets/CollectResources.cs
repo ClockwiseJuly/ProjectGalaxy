@@ -38,7 +38,9 @@ public class CollectResources : MonoBehaviour
     {
         if (isGameActive) return;
         
+        
         collectPanel.SetActive(true);
+        UIManager.Instance.InitCountDown();
         InitializeGame();
     }
 
@@ -62,14 +64,17 @@ public class CollectResources : MonoBehaviour
         EndGame();
     }
 
-    void EndGame()
+    public void EndGame()
     {
         if (!isGameActive) return;
         
+        
+        UIManager.Instance.CloseCountDown();
         collectPanel.SetActive(false);
         CleanupResources();
         DOTween.KillAll();
         isGameActive = false;
+        gameObject.SetActive(false);
     }
 
     void CleanupResources()

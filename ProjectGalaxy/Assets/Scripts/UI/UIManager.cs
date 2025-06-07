@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem.HID;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
@@ -208,6 +210,11 @@ public class UIManager : Singleton<UIManager>
         UpdateUI();
     }
     
+     
+    
+    
+    
+    
     [Header("===== 星球交互 =====")]
     public GameObject canvasStarInteract;
     public GameObject canvasStarSelect;
@@ -242,6 +249,8 @@ public class UIManager : Singleton<UIManager>
             canvasStarInteract.SetActive(false);
         }
     }
+    
+    
     
     // 新增：显示Canvas StarSelect的方法
     public void ShowStarSelectCanvas()
@@ -283,4 +292,6 @@ public class UIManager : Singleton<UIManager>
         
         Debug.Log("UIManager: Canvas状态已初始化 - StarSelect显示，StarInteract隐藏");
     }
+    
+    
 }

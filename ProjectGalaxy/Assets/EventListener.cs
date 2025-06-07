@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class EventListener : MonoBehaviour
 {
-    private bool osTaught = false;
+    [SerializeField] private bool osTaught = false;
     
     public enum EventType
     {
@@ -48,7 +48,7 @@ public class EventListener : MonoBehaviour
             }
         }
         
-
+        
         
     }
 }

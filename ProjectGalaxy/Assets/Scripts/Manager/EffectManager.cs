@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 
-public class EffectManager : MonoBehaviour
+public class EffectManager : Singleton<EffectManager>
 {
     [Header("(shock wave)")]
     [SerializeField] private float shockWaveTime = 0.75f;
@@ -25,11 +25,20 @@ public class EffectManager : MonoBehaviour
     [Header("===== 特效 =====")]
     public ParticleSystem traverseParticle;
 
-    private void Awake()
+    protected override void Start()
     {
+        base.Start();
+        
         
     }
-    
+
+    protected override void Awake()
+    {
+        base.Awake();
+        
+        
+    }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))

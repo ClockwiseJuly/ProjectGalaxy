@@ -50,7 +50,7 @@ public class UIManager : Singleton<UIManager>
         
         inventoryMenu.gameObject.SetActive(false);
         
-        InitializeCanvasStates();
+        //InitializeCanvasStates();
 
         UpdateUI();
         

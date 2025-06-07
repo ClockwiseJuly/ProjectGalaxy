@@ -24,6 +24,8 @@ public class GameData : ScriptableObject
     [SerializeField]
     public bool playedIntro = false;
     public bool osPaneltutorialtaught = false;
+
+    
     
     
 }

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1818744520695446597}
   - component: {fileID: 759592803829972615}
   - component: {fileID: 2027157163099582502}
+  - component: {fileID: 9195776718326478385}
   m_Layer: 5
   m_Name: "\u773C\u775B\u8D44\u6E90"
   m_TagString: Resource
@@ -90,3 +91,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   amount: 10
   duration: 2
+--- !u!114 &9195776718326478385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3160666561861167514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9d39f907ee04b647b48ac388b711d48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resourceType: 4
+  collected: 0

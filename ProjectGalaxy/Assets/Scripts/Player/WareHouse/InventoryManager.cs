@@ -53,4 +53,161 @@ public class InventoryManager : Singleton<InventoryManager>
             Debug.LogWarning($"物品未找到: {itemName}");
         }
     }
+    
+    public void GainMagnifyResource()
+    {
+        int randomValue = UnityEngine.Random.Range(0, 100);
+        
+        if (randomValue < 50)
+        {
+            int randomNum = UnityEngine.Random.Range(0, 3);
+            
+            InventoryManager.Instance.AddItem(items[8], randomNum); //植物
+        }
+        else if (randomValue <= 75 && randomValue > 50)
+        {
+            int randomNum = UnityEngine.Random.Range(0, 3);
+            
+            InventoryManager.Instance.AddItem(items[7], randomNum);//有机矿物
+        }
+        else
+        {
+            int randomNum = UnityEngine.Random.Range(0, 3);
+            
+            InventoryManager.Instance.AddItem(items[6], randomNum);//无机矿物
+        }
+    }
+    
+    public void GainCloudResource()
+    {
+        int randomValue = UnityEngine.Random.Range(0, 100);
+        
+        if (randomValue < 60)
+        {
+            int randomNum = UnityEngine.Random.Range(1, 5);
+            
+            InventoryManager.Instance.AddItem(items[8], randomNum); //植物
+        }
+        else if (randomValue <= 80 && randomValue > 60)
+        {
+            int randomNum = UnityEngine.Random.Range(0, 4);
+            
+            InventoryManager.Instance.AddItem(items[5], randomNum);//可燃冰
+        }
+        else
+        {
+            int randomNum = UnityEngine.Random.Range(0, 3);
+            
+            InventoryManager.Instance.AddItem(items[7], randomNum);//有机矿物
+        }
+    }
+    
+    public void GainHouseResource()
+    {
+        int randomValue = UnityEngine.Random.Range(0, 100);
+        
+        if (randomValue < 35)
+        {
+            int randomNum = UnityEngine.Random.Range(1, 5);
+            
+            InventoryManager.Instance.AddItem(items[6], randomNum);//无机矿物
+        }
+        else if (randomValue <= 55 && randomValue > 35)
+        {
+            int randomNum = UnityEngine.Random.Range(1, 3);
+            
+            InventoryManager.Instance.AddItem(items[3], randomNum);//实验性药剂
+        }
+        else if (randomValue <= 85 && randomValue > 55)
+        {
+            int randomNum = UnityEngine.Random.Range(1, 3);
+            
+            InventoryManager.Instance.AddItem(items[7], randomNum);//营养剂
+        }
+        else 
+        {
+            int randomNum = UnityEngine.Random.Range(1, 2);
+            
+            InventoryManager.Instance.AddItem(items[2], randomNum);//医疗包
+        }
+    }
+    
+    public void GainLightResource()
+    {
+        int randomValue = UnityEngine.Random.Range(0, 100);
+        
+        if (randomValue < 20)
+        {
+            int randomNum = UnityEngine.Random.Range(1, 3);
+            
+            InventoryManager.Instance.AddItem(items[10], randomNum);//纳米胶
+        }
+        else if (randomValue <= 55 && randomValue > 20)
+        {
+            int randomNum = UnityEngine.Random.Range(1, 4);
+            
+            InventoryManager.Instance.AddItem(items[7], randomNum);//有机矿物
+        }
+        else if (randomValue <= 85 && randomValue > 55)
+        {
+            int randomNum = UnityEngine.Random.Range(1, 4);
+            
+            InventoryManager.Instance.AddItem(items[6], randomNum);//无机矿物
+        }
+        else 
+        {
+            int randomNum = UnityEngine.Random.Range(1, 4);
+            
+            InventoryManager.Instance.AddItem(items[9], randomNum);//稀土
+        }
+    }
+    
+    public void GainEyeResource()
+    {
+        int randomValue = UnityEngine.Random.Range(0, 100);
+        
+        if (randomValue < 45)
+        {
+            int randomNum = UnityEngine.Random.Range(0, 3);
+            
+            InventoryManager.Instance.AddItem(items[10], randomNum);//纳米胶
+        }
+        else if (randomValue <= 80 && randomValue > 45)
+        {
+            int randomNum = UnityEngine.Random.Range(0, 1);
+            
+            InventoryManager.Instance.AddItem(items[4], randomNum);//核能燃料
+        }
+        
+        else 
+        {
+            int randomNum = UnityEngine.Random.Range(0, 4);
+            
+            InventoryManager.Instance.AddItem(items[1], randomNum);//镇定剂
+        }
+    }
+    
+    public void GainSkullResource()
+    {
+        int randomValue = UnityEngine.Random.Range(0, 100);
+        
+        if (randomValue < 35)
+        {
+            int randomNum = UnityEngine.Random.Range(1, 5);
+            
+            InventoryManager.Instance.AddItem(items[3], randomNum);//实验性药剂
+        }
+        else if (randomValue <= 50 && randomValue > 35)
+        {
+            int randomNum = UnityEngine.Random.Range(0, 2);
+            
+            InventoryManager.Instance.AddItem(items[4], randomNum);//医疗包
+        }
+        else 
+        {
+            int randomNum = UnityEngine.Random.Range(0, 3);
+            
+            InventoryManager.Instance.AddItem(items[9], randomNum);//稀土
+        }
+    }
 }

@@ -5,6 +5,8 @@ using UnityEngine;
 public class GameDataManager : Singleton<GameDataManager>
 {
     public GameData gameData;
+    
+    
 
 
     protected override void Awake()
@@ -18,4 +20,6 @@ public class GameDataManager : Singleton<GameDataManager>
         base.Start();
         
     }
+
+  
 }

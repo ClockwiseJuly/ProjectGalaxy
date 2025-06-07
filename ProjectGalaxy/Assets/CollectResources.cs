@@ -161,6 +161,7 @@ public class CollectResources : MonoBehaviour
     void CollectResource(GameObject resource)
     {
         activeResources.Remove(resource);
+        resource.GetComponent<GainResource>().collected = true;
         
         //播放音效
         //AudioManager.Instance.PlaySFX();

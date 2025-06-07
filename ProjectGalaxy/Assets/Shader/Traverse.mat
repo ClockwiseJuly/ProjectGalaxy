@@ -62,7 +62,7 @@ Material:
     - _DistorValue: 0.5
     - _a: 1
     - _lambda: 1
-    - _traverseFx: 4.3188834
+    - _traverseFx: 1
     m_Colors:
     - _MainColor: {r: 0.08176088, g: 0.072247826, b: 0.072247826, a: 0}
   m_BuildTextureStacks: []

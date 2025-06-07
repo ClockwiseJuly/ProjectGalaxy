@@ -41,32 +41,32 @@ public class EffectManager : Singleton<EffectManager>
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            //CallShockWave();
-            CallTraverse();
-        }
-        
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            CallShockWave();
-            
-        }
+        // if (Input.GetKeyDown(KeyCode.Space))
+        // {
+        //     //CallShockWave();
+        //     CallTraverse();
+        // }
+        //
+        // if (Input.GetKeyDown(KeyCode.O))
+        // {
+        //     CallShockWave();
+        //     
+        // }
 
         // if (Input.GetKeyDown(KeyCode.I))
         // {
         //     CallSpaceJump();
         // }
 
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            TraverseParticle();
-        }
-        
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            CallTraverseCompleted();
-        }
+        // if (Input.GetKeyDown(KeyCode.P))
+        // {
+        //     TraverseParticle();
+        // }
+        //
+        // if (Input.GetKeyDown(KeyCode.Q))
+        // {
+        //     CallTraverseCompleted();
+        // }
         
     }
 
@@ -129,6 +129,7 @@ public class EffectManager : Singleton<EffectManager>
         //AudioManager.Instance.PlaySFX(traverseIndex);
         
         CameraFxManager.Instance.Shake();
+        GameManager.Instance.BackToOriginWormholeImg();
         
         CallShockWave();
 

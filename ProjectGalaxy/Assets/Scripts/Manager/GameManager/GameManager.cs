@@ -19,6 +19,9 @@ public class GameManager : Singleton<GameManager>//,IPointerClickHandler
     public GameObject planet;
     public Image nowPlanetImage;
     public Canvas uiCanvas;
+    public Image wormholeImage;
+    public Image wormholeImage2;
+    public Image wormholeImageOrigin;
     
     [Header("===== 选择星球 =====")]
     public GameObject selectedPlanetPanel;
@@ -35,7 +38,7 @@ public class GameManager : Singleton<GameManager>//,IPointerClickHandler
     protected override void Start()
     {
         base.Start();
-
+        wormholeImageOrigin = wormholeImage;
         
         //订阅事件
         GameEvent.OnTraverse += HandleOnTraverse; 
@@ -62,6 +65,8 @@ public class GameManager : Singleton<GameManager>//,IPointerClickHandler
     private void HandleOnTraverse()
     {
         Debug.Log("GameManager : 跃迁");
+        
+        
         HandleOnWormhole(true);
 
         UIManager.Instance.TogglePause(true);
@@ -102,11 +107,19 @@ public class GameManager : Singleton<GameManager>//,IPointerClickHandler
     private void HandleOnFinishSelectingPlanet(Image img)
     {
         Debug.Log("GameManager: 已选择星球");
+
+        wormholeImage = wormholeImage2;
         EffectManager.Instance.CallTraverseCompleted();
         
         nowPlanetImage.sprite = img.sprite;
         collectResources.nowPlanet.sprite = img.sprite;
+        
 
+    }
+
+    public void BackToOriginWormholeImg()
+    {
+        wormholeImage = wormholeImageOrigin;
     }
 
     public void SeletcPlanet()

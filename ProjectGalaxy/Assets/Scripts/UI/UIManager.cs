@@ -281,6 +281,6 @@ public class UIManager : Singleton<UIManager>
             canvasStarInteract.SetActive(false);
         }
         
-        Debug.Log("UIManager: Canvas状态已初始化 - StarSelect显示，StarInteract隐藏");
+        //Debug.Log("UIManager: Canvas状态已初始化 - StarSelect显示，StarInteract隐藏");
     }
 }

@@ -438,7 +438,7 @@ public class RollingUI : MonoBehaviour
             if (currentRoundStarInfos[index] != null)
             {
                 maskImages[index].sprite = currentRoundStarInfos[index].sprite;
-                Debug.Log($"为选项 {index} 设置了星球贴图: {currentRoundStarInfos[index].folderName}");
+                //Debug.Log($"为选项 {index} 设置了星球贴图: {currentRoundStarInfos[index].folderName}");
             }
         }
         else

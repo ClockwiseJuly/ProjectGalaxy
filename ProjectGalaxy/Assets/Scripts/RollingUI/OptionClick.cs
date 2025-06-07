@@ -26,7 +26,7 @@ public class OptionClick : MonoBehaviour, IPointerClickHandler
                 
                 GameEvent.OnFinishSelectingPlanet?.Invoke(maskImage);
                 
-                
+            
                 // 将选中的星球数据保存到静态管理器
                 StarDataManager.SetSelectedStar(maskImage.sprite, starIndex);
                 

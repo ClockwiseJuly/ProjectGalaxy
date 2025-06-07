@@ -31,6 +31,8 @@ public class GameManager : Singleton<GameManager>//,IPointerClickHandler
     
     [Header("===== 收集资源 =====")]
     public CollectResources collectResources;
+    public RandomEvent randomEvent;
+    
 
     
 

@@ -30,15 +30,7 @@ public class RandomEvent : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            MoveToTarget();
-        }
         
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            ReturnToOriginal();
-        }
         
         
     }
@@ -56,7 +48,7 @@ public class RandomEvent : MonoBehaviour
     // }
 
     // 移动到目标位置
-    public void MoveToTarget()
+    public void MoveToTarget() //弹出面板
     {
 
         StartCoroutine(AnimateMove(leftImage.image, leftImage.targetPosition.position));
@@ -67,7 +59,7 @@ public class RandomEvent : MonoBehaviour
     }
 
     // 返回原始位置
-    public void ReturnToOriginal()
+    public void ReturnToOriginal()  //收走面板
     {
         StartCoroutine(AnimateMove(leftImage.image, leftImage.originalPosition.position));
         

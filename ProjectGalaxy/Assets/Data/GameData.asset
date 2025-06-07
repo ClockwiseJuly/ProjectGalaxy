@@ -29,5 +29,5 @@ MonoBehaviour:
     name: "\u6838\u80FD\u71C3\u6599"
     description: "\u7ED9\u98DE\u8239\u63D0\u4F9B\u71C3\u6599"
     amount: 10
-  playedIntro: 1
-  osPaneltutorialtaught: 1
+  playedIntro: 0
+  osPaneltutorialtaught: 0

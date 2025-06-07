@@ -32,8 +32,7 @@ public class UIManager : Singleton<UIManager>
     
     [Header("===== 背包 =====")] 
     public GameObject inventoryMenu;
-
-
+    
     [Header("===== 面板 =====")] 
     public GameObject SettingMenu;
     public GameObject OSPanel;
@@ -51,6 +50,8 @@ public class UIManager : Singleton<UIManager>
         
         inventoryMenu.gameObject.SetActive(false);
         
+        InitializeCanvasStates();
+
         UpdateUI();
         
 
@@ -203,5 +204,81 @@ public class UIManager : Singleton<UIManager>
         isPaused = false;
         countdownText.color = normalColor; // 重置颜色
         UpdateUI();
+    }
+    
+    [Header("===== 星球交互 =====")]
+    public GameObject canvasStarInteract;
+    public GameObject canvasStarSelect;
+    
+    public void ShowStarInteractCanvas()
+    {
+        Debug.Log("UIManager: 正在显示星球交互界面...");
+        
+        // 隐藏Canvas StarSelect
+        if (canvasStarSelect != null)
+        {
+            canvasStarSelect.SetActive(false);
+            Debug.Log("UIManager: Canvas StarSelect已隐藏");
+        }
+        
+        // 显示Canvas StarInteract
+        if (canvasStarInteract != null)
+        {
+            canvasStarInteract.SetActive(true);
+            Debug.Log("UIManager: Canvas StarInteract已激活");
+        }
+        else
+        {
+            Debug.LogError("UIManager: canvasStarInteract引用为空！");
+        }
+    }
+    
+    public void HideStarInteractCanvas()
+    {
+        if (canvasStarInteract != null)
+        {
+            canvasStarInteract.SetActive(false);
+        }
+    }
+    
+    // 新增：显示Canvas StarSelect的方法
+    public void ShowStarSelectCanvas()
+    {
+        Debug.Log("UIManager: 正在显示星球选择界面...");
+        
+        // 隐藏Canvas StarInteract
+        if (canvasStarInteract != null)
+        {
+            canvasStarInteract.SetActive(false);
+            Debug.Log("UIManager: Canvas StarInteract已隐藏");
+        }
+        
+        // 显示Canvas StarSelect
+        if (canvasStarSelect != null)
+        {
+            canvasStarSelect.SetActive(true);
+            Debug.Log("UIManager: Canvas StarSelect已激活");
+        }
+        else
+        {
+            Debug.LogError("UIManager: canvasStarSelect引用为空！");
+        }
+    }
+    
+    // 新增：初始化Canvas状态的方法
+    public void InitializeCanvasStates()
+    {
+        // 初始时显示Canvas StarSelect，隐藏Canvas StarInteract
+        if (canvasStarSelect != null)
+        {
+            canvasStarSelect.SetActive(true);
+        }
+        
+        if (canvasStarInteract != null)
+        {
+            canvasStarInteract.SetActive(false);
+        }
+        
+        Debug.Log("UIManager: Canvas状态已初始化 - StarSelect显示，StarInteract隐藏");
     }
 }

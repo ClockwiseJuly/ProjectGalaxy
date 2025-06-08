@@ -20,11 +20,28 @@ public class RandomEventData : ScriptableObject
     
     public EventType eventType = EventType.Normal; // 事件类型
     
-    [Header("事件选项")]
-    public EventOption[] options;           // 事件选项数组
+    [Header("运行时选项（由系统自动分配）")]
+    [System.NonSerialized]
+    public EventOption[] runtimeOptions;    // 运行时分配的选项
     
     [Header("调试信息")]
     public bool hasBeenTriggered = false;   // 是否已被触发（运行时使用）
+    
+    /// <summary>
+    /// 设置运行时选项
+    /// </summary>
+    public void SetRuntimeOptions(EventOption[] options)
+    {
+        runtimeOptions = options;
+    }
+    
+    /// <summary>
+    /// 获取运行时选项
+    /// </summary>
+    public EventOption[] GetOptions()
+    {
+        return runtimeOptions;
+    }
     
     /// <summary>
     /// 验证事件数据的完整性
@@ -34,31 +51,15 @@ public class RandomEventData : ScriptableObject
         if (string.IsNullOrEmpty(eventTitle) || string.IsNullOrEmpty(eventDescription))
             return false;
             
-        if (options == null || options.Length == 0)
-            return false;
-            
-        // 普通事件必须有1个选项，特殊事件必须有2个选项
-        if (eventType == EventType.Normal && options.Length != 1)
-            return false;
-            
-        if (eventType == EventType.Special && options.Length != 2)
-            return false;
-            
-        // 检查所有选项是否有效
-        foreach (var option in options)
-        {
-            if (option == null || string.IsNullOrEmpty(option.optionText) || option.eventEffect == null)
-                return false;
-        }
-        
         return true;
     }
     
     /// <summary>
-    /// 重置事件状态（用于测试）
+    /// 重置触发状态
     /// </summary>
     public void ResetTriggerState()
     {
         hasBeenTriggered = false;
+        runtimeOptions = null;
     }
 }

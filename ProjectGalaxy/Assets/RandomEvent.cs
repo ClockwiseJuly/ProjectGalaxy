@@ -69,8 +69,8 @@ public class RandomEvent : MonoBehaviour
         // 设置为单选项模式
         SetUIMode(false);
         
-        // 播放弹出动画
-        MoveToTarget();
+        // 播放普通事件动画（只移动中间图片）
+        MoveToTargetNormal();
         
         Debug.Log($"显示普通事件: {eventData.eventTitle}");
     }
@@ -86,8 +86,8 @@ public class RandomEvent : MonoBehaviour
         // 设置为双选项模式
         SetUIMode(true);
         
-        // 播放弹出动画
-        MoveToTarget();
+        // 播放特殊事件动画（移动所有三个图片）
+        MoveToTargetSpecial();
         
         Debug.Log($"显示特殊事件: {eventData.eventTitle}");
     }
@@ -101,14 +101,22 @@ public class RandomEvent : MonoBehaviour
         // 设置事件内容
         SetEventContent(eventData);
         
-        // 根据事件类型设置UI模式
+        // 根据事件类型设置UI模式和动画
         bool isSpecialEvent = (eventData.eventType == EventType.Special);
         SetUIMode(isSpecialEvent);
         
-        // 播放弹出动画
-        MoveToTarget();
+        // 根据事件类型播放不同的动画
+        if (isSpecialEvent)
+        {
+            MoveToTargetSpecial();
+        }
+        else
+        {
+            MoveToTargetNormal();
+        }
     }
 
+    // 设置事件内容
     // 设置事件内容
     private void SetEventContent(RandomEventData eventData)
     {
@@ -120,20 +128,22 @@ public class RandomEvent : MonoBehaviour
             
         if (eventIconImage != null && eventData.eventImage != null)
             eventIconImage.sprite = eventData.eventImage;
-
-        // 设置选项文本
+    
+        // 设置选项文本 - 使用运行时分配的选项
+        EventOption[] options = eventData.GetOptions();
         bool isSpecialEvent = (eventData.eventType == EventType.Special);
-        if (isSpecialEvent && eventData.options.Length >= 2)
+        
+        if (isSpecialEvent && options != null && options.Length >= 2)
         {
             if (leftOptionText != null)
-                leftOptionText.text = eventData.options[0].optionText;
+                leftOptionText.text = options[0].optionText;
             if (rightOptionText != null)
-                rightOptionText.text = eventData.options[1].optionText;
+                rightOptionText.text = options[1].optionText;
         }
-        else if (eventData.options.Length >= 1)
+        else if (options != null && options.Length >= 1)
         {
             if (singleOptionText != null)
-                singleOptionText.text = eventData.options[0].optionText;
+                singleOptionText.text = options[0].optionText;
         }
     }
 
@@ -159,7 +169,7 @@ public class RandomEvent : MonoBehaviour
     // 处理选项选择
     private void OnOptionSelected(int optionIndex)
     {
-        if (currentEventData != null && optionIndex < currentEventData.options.Length)
+        if (currentEventData != null && optionIndex < currentEventData.runtimeOptions.Length)
         {
             // 通知RandomEventManager处理选项选择
             if (RandomEventManager.Instance != null)
@@ -169,7 +179,7 @@ public class RandomEvent : MonoBehaviour
             else
             {
                 // 如果没有RandomEventManager，直接应用效果
-                ApplyEventEffect(currentEventData.options[optionIndex].eventEffect);
+                ApplyEventEffect(currentEventData.runtimeOptions[optionIndex].eventEffect);
                 ReturnToOriginal();
             }
             
@@ -188,20 +198,117 @@ public class RandomEvent : MonoBehaviour
         }
     }
 
-    // 移动到目标位置（弹出面板）
-    public void MoveToTarget()
+    // 普通事件动画（只移动中间图片）
+    public void MoveToTargetNormal()
     {
-        StartCoroutine(AnimateMove(leftImage.image, leftImage.targetPosition.position));
+        // 暂停倒计时
+        if (UIManager.Instance != null)
+        {
+            UIManager.Instance.Pause();
+        }
+        
         StartCoroutine(AnimateMove(centerImage.image, centerImage.targetPosition.position));
-        StartCoroutine(AnimateMove(rightImage.image, rightImage.targetPosition.position));
     }
 
-    // 返回原始位置（收走面板）
+    // 特殊事件动画（移动所有三个图片）
+    public void MoveToTargetSpecial()
+    {
+        // 暂停倒计时
+        if (UIManager.Instance != null)
+        {
+            UIManager.Instance.Pause();
+        }
+        
+        // 使用单个协程管理所有图片动画
+        StartCoroutine(AnimateMoveMultiple(new RectTransform[] 
+        {
+            leftImage.image,
+            centerImage.image,
+            rightImage.image
+        }, new Vector3[] 
+        {
+            leftImage.targetPosition.position,
+            centerImage.targetPosition.position,
+            rightImage.targetPosition.position
+        }));
+    }
+
+    public void MoveToTarget()
+    {
+        // 暂停倒计时
+        if (UIManager.Instance != null)
+        {
+            UIManager.Instance.Pause();
+        }
+        
+        StartCoroutine(AnimateMoveMultiple(new RectTransform[] 
+        {
+            leftImage.image,
+            centerImage.image,
+            rightImage.image
+        }, new Vector3[] 
+        {
+            leftImage.targetPosition.position,
+            centerImage.targetPosition.position,
+            rightImage.targetPosition.position
+        }));
+    }
+
+    // 新的优化协程方法
+    private IEnumerator AnimateMoveMultiple(RectTransform[] images, Vector3[] targetPositions)
+    {
+        Vector3[] startPositions = new Vector3[images.Length];
+        
+        // 记录初始位置
+        for (int i = 0; i < images.Length; i++)
+        {
+            startPositions[i] = images[i].position;
+        }
+        
+        float elapsedTime = 0f;
+    
+        while (elapsedTime < moveDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsedTime / moveDuration);
+            float curveValue = moveCurve.Evaluate(t); // 只计算一次
+            
+            // 同时更新所有图片位置
+            for (int i = 0; i < images.Length; i++)
+            {
+                images[i].position = Vector3.Lerp(startPositions[i], targetPositions[i], curveValue);
+            }
+            
+            yield return null;
+        }
+    
+        // 确保最终位置准确
+        for (int i = 0; i < images.Length; i++)
+        {
+            images[i].position = targetPositions[i];
+        }
+    }
+
+    // 优化返回原始位置方法
     public void ReturnToOriginal()
     {
-        StartCoroutine(AnimateMove(leftImage.image, leftImage.originalPosition.position));
-        StartCoroutine(AnimateMove(centerImage.image, centerImage.originalPosition.position));
-        StartCoroutine(AnimateMove(rightImage.image, rightImage.originalPosition.position));
+        StartCoroutine(AnimateMoveMultiple(new RectTransform[] 
+        {
+            leftImage.image,
+            centerImage.image,
+            rightImage.image
+        }, new Vector3[] 
+        {
+            leftImage.originalPosition.position,
+            centerImage.originalPosition.position,
+            rightImage.originalPosition.position
+        }));
+        
+        // 恢复倒计时
+        if (UIManager.Instance != null)
+        {
+            UIManager.Instance.Continue();
+        }
     }
 
     private IEnumerator AnimateMove(RectTransform image, Vector3 targetPos)

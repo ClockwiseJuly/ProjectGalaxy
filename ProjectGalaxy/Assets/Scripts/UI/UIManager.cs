@@ -16,8 +16,9 @@ public class UIManager : Singleton<UIManager>
     [Header("===== 计时器设置 =====")]
     public float stayTime = 42f; 
     public bool isPaused = false; //是否暂停
+    private bool isPausedByEvent = false; // 是否因为事件而暂停
+    private bool isPausedByOSPanel = false; // 是否因为OS面板而暂停
     
-
     [Header("===== 倒计时UI =====")] 
     public GameObject countdownUI;
     public Slider countdownSlider;
@@ -133,24 +134,32 @@ public class UIManager : Singleton<UIManager>
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             ToggleEsc();
-
         }
 
         if (OSPanel.activeInHierarchy)
         {
             if(GameDataManager.Instance.gameData.osPaneltutorialtaught)
-               isPaused = true;
-
+               isPausedByOSPanel = true;
         }
         else
         {
-            isPaused = false;
+            isPausedByOSPanel = false;
         }
         
-        //if(GameDataManager.Instance.gameData.osPaneltutorialtaught)
-            //Time.timeScale = isPaused ? 0 : 1;
-        
-        
+        // 更新总的暂停状态
+        isPaused = isPausedByEvent || isPausedByOSPanel;
+    }
+
+    public void Pause()
+    {
+        isPausedByEvent = true;
+        isPaused = true;
+    }
+
+    public void Continue()
+    {
+        isPausedByEvent = false;
+        isPaused = isPausedByOSPanel; // 只有当OS面板也没有暂停时才继续
     }
     
     //切换暂停状态
@@ -198,23 +207,30 @@ public class UIManager : Singleton<UIManager>
     {
         
     }
-
-    public void Pause()
-    {
-        isPaused = true;
-    }
-
-    public void Continue()
-    {
-        isPaused = false;
-    }
     
     //重置倒计时
+    // 在UIManager类中添加这个公共属性
+    public float CurrentTime => currentTime;
+
+    // 或者添加这个公共方法
+    public float GetCurrentTime()
+    {
+        return currentTime;
+    }
+
+    // 添加重置事件触发状态的调用
     public void ResetTimer()
     {
         currentTime = stayTime;
         isPaused = false;
         countdownText.color = normalColor; // 重置颜色
+        
+        // 重置RandomEventManager的事件触发状态
+        if (RandomEventManager.Instance != null)
+        {
+            RandomEventManager.Instance.ResetEventTriggers();
+        }
+        
         UpdateUI();
     }
 
@@ -235,11 +251,6 @@ public class UIManager : Singleton<UIManager>
         countdownUI.SetActive(false);
         countdownSlider.gameObject.SetActive(false);
     }
-    
-     
-    
-    
-    
     
     [Header("===== 星球交互 =====")]
     public GameObject canvasStarInteract;
@@ -276,8 +287,6 @@ public class UIManager : Singleton<UIManager>
         }
     }
     
-    
-    
     // 新增：显示Canvas StarSelect的方法
     public void ShowStarSelectCanvas()
     {
@@ -287,8 +296,10 @@ public class UIManager : Singleton<UIManager>
         // RollingUI rollingUI = FindObjectOfType<RollingUI>();
         // if (rollingUI != null && StarPoolManager.Instance != null)
         // {
-        //     StarInfo[] newStarInfos = StarPoolManager.Instance.GetRandomStarInfosForRound();
-        //     rollingUI.RefreshStarOptions(newStarInfos);
+        //     // 刷新星球池
+        //     StarPoolManager.Instance.RefreshStarPool();
+        //     // 更新UI显示
+        //     rollingUI.RefreshStarDisplay();
         // }
         
         // 隐藏Canvas StarInteract
@@ -310,22 +321,11 @@ public class UIManager : Singleton<UIManager>
         }
     }
     
-    // 新增：初始化Canvas状态的方法
-    public void InitializeCanvasStates()
+    public void HideStarSelectCanvas()
     {
-        // 初始时显示Canvas StarSelect，隐藏Canvas StarInteract
         if (canvasStarSelect != null)
         {
-            canvasStarSelect.SetActive(true);
+            canvasStarSelect.SetActive(false);
         }
-        
-        if (canvasStarInteract != null)
-        {
-            canvasStarInteract.SetActive(false);
-        }
-        
-        //Debug.Log("UIManager: Canvas状态已初始化 - StarSelect显示，StarInteract隐藏");
     }
-    
-    
 }

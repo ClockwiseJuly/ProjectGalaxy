@@ -220,6 +220,44 @@ public class InventoryManager : Singleton<InventoryManager>
         {
             thisItem.amount -= 1;
             Debug.Log($"已使用{thisItem.name}");
+
+            if (thisItem.name == "营养剂")
+            {
+                GameDataManager.Instance.ChangeHP(20);
+            }
+            else if (thisItem.name == "镇定剂")
+            {
+                GameDataManager.Instance.ChangeSAN(20);
+            }
+            else if (thisItem.name == "医疗包")
+            {
+                GameDataManager.Instance.ChangeHP(50);
+            }
+            else if (thisItem.name == "实验性药剂")
+            {
+                int hpValue = UnityEngine.Random.Range(-20,20);
+                int sanValue = UnityEngine.Random.Range(-20,20);
+                
+                GameDataManager.Instance.ChangeHP(hpValue);
+                GameDataManager.Instance.ChangeSAN(sanValue);
+            }
+            else if (thisItem.name == "核能燃料")
+            {
+                GameDataManager.Instance.ChangeShipFuel(50);
+            }
+            else if (this.name == "可燃冰")
+            {
+                GameDataManager.Instance.ChangeShipFuel(20);
+            }
+            else if (thisItem.name == "自修复纳米胶")
+            {
+                GameDataManager.Instance.ChangeShipHP(15);
+            }
+            else if (thisItem.name == "记忆金属")
+            {
+                GameDataManager.Instance.ChangeShipHP(15);
+            }
+            
             inventory.DisplayItems();
         }
     }

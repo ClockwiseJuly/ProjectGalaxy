@@ -26,6 +26,13 @@ public class MainMenu : MonoBehaviour
     private float currentValue = 0f;
     [SerializeField] private float currentValueSpeed = 0.5f;
 
+    public GameObject toturialPanel;
+
+    private void OnEnable()
+    {
+        AudioManager.Instance.PlayBGM(0);
+    }
+
     private void Start()
     {
         
@@ -35,6 +42,8 @@ public class MainMenu : MonoBehaviour
     public void StartGame()
     {
         //SceneManager.LoadScene(1);
+        gameData.playedIntro =false;
+        gameData.osPaneltutorialtaught  = false;
         StartCoroutine(LoadLevel());
         
     }
@@ -88,5 +97,10 @@ public class MainMenu : MonoBehaviour
             yield return null;
         }
         
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 }

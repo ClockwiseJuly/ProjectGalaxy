@@ -54,6 +54,14 @@ public class IntroPlayer : MonoBehaviour
     }
 
 
+    private void OnEnable()
+    {
+
+        AudioManager.Instance.PlayBGM(1);
+
+
+    }
+
 
     private void Initialize()
     {
@@ -76,11 +84,15 @@ public class IntroPlayer : MonoBehaviour
 
     public void PlaySequence()
     {
+        
+        
         // 清理现有序列
         if (_sequence != null && _sequence.IsActive())
         {
             _sequence.Kill();
         }
+        
+        AudioManager.Instance.PlayBGM(1);
 
         _sequence = DOTween.Sequence();
         
@@ -173,6 +185,7 @@ public class IntroPlayer : MonoBehaviour
         GameDataManager.Instance.gameData.playedIntro = true;
         introPlayer.gameObject.SetActive(false);
         flowchart.ExecuteBlock("T1");
+        AudioManager.Instance.PlayBGM(2);
         
     }
 }

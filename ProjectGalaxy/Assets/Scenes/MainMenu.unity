@@ -1203,7 +1203,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 210c5c5ea6adb1547a9c76f8d80145bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameData: {fileID: 0}
+  gameData: {fileID: 11400000, guid: 345452cbe1b05a24795995aaffee7987, type: 2}
   initialGameData: {fileID: 0}
   startBtn: {fileID: 365290707}
   exitBtn: {fileID: 167072272}
@@ -1216,6 +1216,7 @@ MonoBehaviour:
   loadingPercentageText: {fileID: 974577057}
   loadpanel: {fileID: 0}
   currentValueSpeed: 0.5
+  toturialPanel: {fileID: 0}
 --- !u!1 &1534959116
 GameObject:
   m_ObjectHideFlags: 0
@@ -1611,7 +1612,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1352267564}
         m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
-        m_MethodName: ExitGame
+        m_MethodName: QuitGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

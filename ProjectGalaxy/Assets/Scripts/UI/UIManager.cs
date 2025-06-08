@@ -42,6 +42,11 @@ public class UIManager : Singleton<UIManager>
     public GameObject OSPanel;
     public bool isEsc = false; //是否按下Esc键
     
+    [Header("===== 设置 =====")]
+    public Image musicImage1;
+    public Image musicImage2;
+     
+    
     protected override void Start()
     {
         base.Start();

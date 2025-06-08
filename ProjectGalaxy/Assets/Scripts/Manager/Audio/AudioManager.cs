@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
@@ -27,6 +28,7 @@ public class AudioManager : Singleton<AudioManager>
     private void OnEnable()
     {
         //check scene index and play bgm
+        
     }
 
     protected override void Start()

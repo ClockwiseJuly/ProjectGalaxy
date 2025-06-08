@@ -99,6 +99,11 @@ public class MainMenu : MonoBehaviour
         
     }
 
+    public void OpenURL()
+    {
+        Application.OpenURL("https://www.bilibili.com/video/BV1d9TXzrEF1/?spm_id_from=333.1387.homepage.video_card.click&vd_source=fd03c6736f0154bafdb47a9facf6e4d9");
+    }
+
     public void QuitGame()
     {
         Application.Quit();

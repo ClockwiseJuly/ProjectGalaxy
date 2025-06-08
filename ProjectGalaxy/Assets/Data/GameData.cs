@@ -16,6 +16,7 @@ public class GameData : ScriptableObject
         public string name; // 物品名称
         public string description; // 物品描述
         public int amount; // 物品数量
+        public bool canUse;
     }
     
     [SerializeField]

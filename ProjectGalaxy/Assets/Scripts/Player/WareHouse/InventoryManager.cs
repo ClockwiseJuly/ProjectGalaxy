@@ -6,6 +6,7 @@ public class InventoryManager : Singleton<InventoryManager>
 {
     public GameData gameData;
     public Inventory inventory;
+    public ItemUseConfirm popupConfirmPanel;
     
     public GameData.Item[] items;
     

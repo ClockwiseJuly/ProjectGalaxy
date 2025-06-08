@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+
 public class ToolTipFunc : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     private Tween _delayTween;
@@ -17,7 +18,8 @@ public class ToolTipFunc : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     {
         none,
         item,
-        other
+        other,
+        state
     }
 
     public ToolTipType toolTipType;
@@ -57,6 +59,32 @@ public class ToolTipFunc : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
                 }
                 
                 
+            }
+            else if (toolTipType == ToolTipType.state)
+            {
+                _header = header;
+
+                if (gameObject.name == "血量BG")
+                {
+                    float hp = GameDataManager.Instance.maxHP *
+                               gameObject.transform.GetChild(0).GetComponent<Image>().fillAmount;
+
+                    string value = Mathf.FloorToInt(hp).ToString();
+                    
+                    _content = content + value;
+                }
+                else if (gameObject.name == "理智BG")
+                {
+                    float san = GameDataManager.Instance.maxSAN *
+                                  gameObject.transform.GetChild(0).GetComponent<Image>().fillAmount;
+                    
+                    string value = Mathf.FloorToInt(san).ToString();
+                    
+                    _content = content + value;
+                }
+                
+                
+                ToolTipSystem.Show(_content, _header);
             }
         });
     }

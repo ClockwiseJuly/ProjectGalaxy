@@ -6,6 +6,7 @@ public class InventoryManager : Singleton<InventoryManager>
 {
     public GameData gameData;
     public Inventory inventory;
+    public ItemUseConfirm popupConfirmPanel;
     
     public GameData.Item[] items;
     
@@ -122,7 +123,7 @@ public class InventoryManager : Singleton<InventoryManager>
         {
             int randomNum = UnityEngine.Random.Range(1, 3);
             
-            InventoryManager.Instance.AddItem(items[7], randomNum);//营养剂
+            InventoryManager.Instance.AddItem(items[7], randomNum);//有机矿物
         }
         else 
         {

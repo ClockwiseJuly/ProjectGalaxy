@@ -3,15 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class Inventory : MonoBehaviour
+public class Inventory : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,IPointerClickHandler
 {
     public GameData gameData;
+    public ItemUseConfirm popupConfirmPanel;
 
 
     public GameObject[] slots;
     
+
     private void Start()
     {
         //DisplayItems();
@@ -25,6 +28,8 @@ public class Inventory : MonoBehaviour
     private void OnDisable()
     {
         //ClearItems();
+        popupConfirmPanel.gameObject.SetActive(false);
+        
     }
 
 
@@ -61,6 +66,22 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        
+        
+        
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        
+    }
 }
 

@@ -17,41 +17,21 @@ MonoBehaviour:
     name: "\u8425\u517B\u5242"
     description: "\u53EF\u4EE5\u56DE\u590D\u5C11\u91CF\u8840\u91CF"
     amount: 5
+    canUse: 1
   - icon: {fileID: -207609093, guid: f36c7a0071fbde54a9678276660c712b, type: 3}
     name: "\u9547\u5B9A\u5242"
     description: "\u53EF\u4EE5\u56DE\u590D\u5C11\u91CF\u7406\u667A"
     amount: 5
+    canUse: 1
   - icon: {fileID: -684985391, guid: 81fe4be20a7ff284aaab88462706bb39, type: 3}
     name: "\u533B\u7597\u5305"
     description: "\u53EF\u4EE5\u56DE\u590D\u8840\u91CF"
     amount: 2
+    canUse: 1
   - icon: {fileID: 969551030, guid: adf32c7fe3a9aff4996fce5cddeaac1e, type: 3}
     name: "\u6838\u80FD\u71C3\u6599"
     description: "\u7ED9\u98DE\u8239\u63D0\u4F9B\u71C3\u6599"
     amount: 10
-  - icon: {fileID: 1462603523, guid: 0f4596c68e43ff441b901b64f88f31c4, type: 3}
-    name: "\u7EFF\u690D"
-    description: 
-    amount: 1
-  - icon: {fileID: -383565876, guid: cbe8732060b5afe40bad2a5904a4d14d, type: 3}
-    name: "\u65E0\u673A\u77FF\u7269"
-    description: 
-    amount: 1
-  - icon: {fileID: 1253164568, guid: 5221482d87926794da388a90488befe0, type: 3}
-    name: "\u6709\u673A\u77FF\u7269"
-    description: 
-    amount: 2
-  - icon: {fileID: -1784141824, guid: 17ee5616ca348144a81d741a884b19e0, type: 3}
-    name: "\u7A00\u571F"
-    description: 
-    amount: 0
-  - icon: {fileID: 878826956, guid: d8301f3502303804d80273391553e698, type: 3}
-    name: "\u5B9E\u9A8C\u6027\u836F\u5242"
-    description: 
-    amount: 1
-  - icon: {fileID: 1358302658, guid: f4f47678e83543c4c8342e23c161bb5d, type: 3}
-    name: "\u53EF\u71C3\u51B0"
-    description: 
-    amount: 0
+    canUse: 1
   playedIntro: 1
   osPaneltutorialtaught: 1

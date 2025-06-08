@@ -164,7 +164,7 @@ public class CollectResources : MonoBehaviour
         resource.GetComponent<GainResource>().collected = true;
         
         //播放音效
-        //AudioManager.Instance.PlaySFX();
+        AudioManager.Instance.PlaySFX(6);
 
         Sequence anim = DOTween.Sequence();
         anim.Append(resource.transform.DOScale(popEffect, fadeTime));

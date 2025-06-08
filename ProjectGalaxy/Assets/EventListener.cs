@@ -11,7 +11,8 @@ public class EventListener : MonoBehaviour
     public enum EventType
     {
         none,
-        OSPanelTutorial
+        OSPanelTutorial,
+        closeCraftPanel,
         
     }
 
@@ -54,6 +55,10 @@ public class EventListener : MonoBehaviour
                 GameManager.Instance.DialogueTraverseTutorial();
                 osTaught = true;
             }
+        }
+        else if (eventType == EventType.closeCraftPanel)
+        {
+            InventoryManager.Instance.inventory.DisplayItems();
         }
         
         

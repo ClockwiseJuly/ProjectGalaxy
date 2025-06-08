@@ -75,6 +75,7 @@ public class CollectResources : MonoBehaviour
         DOTween.KillAll();
         isGameActive = false;
         gameObject.SetActive(false);
+        GameManager.Instance.EndCheck();
     }
 
     void CleanupResources()

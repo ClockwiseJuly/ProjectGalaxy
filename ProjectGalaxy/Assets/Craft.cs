@@ -69,6 +69,11 @@ public class Craft : MonoBehaviour
         
         
         InventoryManager.Instance.AddItem(InventoryManager.Instance.items[craftInfo.craftID],1);
+
+        if (craftInfo.craftID == 12)
+        {
+            GameDataManager.Instance.HasEngine();
+        }
         
         InventoryManager.Instance.inventory.DisplayItems();
         popupCraftPanel.gameObject.SetActive(false);

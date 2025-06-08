@@ -36,6 +36,7 @@ public class GameManager : Singleton<GameManager>//,IPointerClickHandler
     [Header("===== 游戏轮次管理 =====")]
     private int currentRound = 1;        // 当前轮次
     private int maxRounds = 7;           // 最大轮次
+    public End end;
     
 
     protected override void Start()
@@ -317,4 +318,9 @@ public class GameManager : Singleton<GameManager>//,IPointerClickHandler
     //         }
     //     }
     // }
+
+    public void EndCheck()
+    {
+        end.EndCheck();
+    }
 }

@@ -21,8 +21,9 @@ public class GameDataManager : Singleton<GameDataManager>
     public Image SANSlider;
     public Image shipHPImg;
     public Image shipFuelImg;
-    
-    
+
+    public bool hasEngine = false;
+    public bool endTriggered = false;
     
 
     protected override void Awake()
@@ -69,5 +70,10 @@ public class GameDataManager : Singleton<GameDataManager>
         shipHPImg.fillAmount = nowShipHP / (float)maxShipHP;
         shipFuelImg.fillAmount = nowShipFuel / (float)maxShipFuel;
     }
-  
+
+
+    public void HasEngine()
+    {
+        hasEngine = true;
+    }
 }

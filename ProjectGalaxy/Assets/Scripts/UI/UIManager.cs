@@ -80,7 +80,9 @@ public class UIManager : Singleton<UIManager>
                 Debug.Log("跃迁倒计时结束！");
                 //可以添加结束时的逻辑
                 collectResources.EndGame();
-                EffectManager.Instance.CallTraverse();
+                
+                if(!GameDataManager.Instance.endTriggered)
+                    EffectManager.Instance.CallTraverse();
             }
         }
     }

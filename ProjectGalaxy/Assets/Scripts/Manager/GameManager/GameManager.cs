@@ -34,8 +34,6 @@ public class GameManager : Singleton<GameManager>//,IPointerClickHandler
     public RandomEvent randomEvent;
     
 
-    
-
 
     protected override void Start()
     {

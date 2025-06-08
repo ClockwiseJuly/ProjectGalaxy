@@ -7,8 +7,10 @@ public class RandomEventManager : Singleton<RandomEventManager>
     [Header("事件数据库")]
     public RandomEventDatabase eventDatabase;
     
-    [Header("倒计时设置")]
-    public float totalCountdownTime = 42f;      // 总倒计时时间
+    [Header("选项池")]
+    public EventOptionPool optionPool;
+    
+    [Header("事件触发时间点")]
     public float normalEventTriggerTime = 28f;  // 普通事件触发时间点
     public float specialEventTriggerTime = 14f; // 特殊事件触发时间点
     
@@ -16,8 +18,6 @@ public class RandomEventManager : Singleton<RandomEventManager>
     public RandomEvent randomEventUI;           // RandomEvent脚本引用
     
     [Header("当前状态")]
-    public float currentCountdownTime;          // 当前倒计时时间
-    public bool isCountdownActive = false;      // 倒计时是否激活
     public bool normalEventTriggered = false;   // 普通事件是否已触发
     public bool specialEventTriggered = false;  // 特殊事件是否已触发
     
@@ -45,71 +45,74 @@ public class RandomEventManager : Singleton<RandomEventManager>
             Debug.LogError("RandomEventManager: 未设置事件数据库！");
         }
         
+        if (optionPool == null)
+        {
+            Debug.LogError("RandomEventManager: 未设置选项池！");
+        }
+        
         if (randomEventUI == null)
         {
             Debug.LogError("RandomEventManager: 未找到RandomEvent组件！");
         }
+        
+        // 重置事件触发状态
+        ResetEventTriggers();
     }
     
     private void Update()
     {
-        // 更新倒计时
-        if (isCountdownActive)
+        // 检查UIManager的倒计时状态
+        if (UIManager.Instance != null && !UIManager.Instance.isPaused)
         {
-            UpdateCountdown();
+            CheckEventTriggers();
         }
     }
     
     /// <summary>
-    /// 开始42秒倒计时
+    /// 检查事件触发条件
     /// </summary>
-    public void StartCountdown()
+    private void CheckEventTriggers()
     {
-        currentCountdownTime = totalCountdownTime;
-        isCountdownActive = true;
-        normalEventTriggered = false;
-        specialEventTriggered = false;
+        if (UIManager.Instance == null) return;
         
-        Debug.Log($"开始42秒倒计时！当前时间: {currentCountdownTime}秒");
-    }
-    
-    /// <summary>
-    /// 停止倒计时
-    /// </summary>
-    public void StopCountdown()
-    {
-        isCountdownActive = false;
-        Debug.Log("倒计时已停止");
-    }
-    
-    /// <summary>
-    /// 更新倒计时逻辑
-    /// </summary>
-    private void UpdateCountdown()
-    {
-        currentCountdownTime -= Time.deltaTime;
+        // 获取UIManager的当前倒计时时间
+        float currentTime = GetCurrentCountdownTime();
         
-        // 检查普通事件触发条件（42秒到28秒之间）
-        if (!normalEventTriggered && currentCountdownTime <= normalEventTriggerTime)
+        // 检查普通事件触发条件
+        if (!normalEventTriggered && currentTime <= normalEventTriggerTime && currentTime > specialEventTriggerTime)
         {
             TriggerNormalEvent();
             normalEventTriggered = true;
         }
         
-        // 检查特殊事件触发条件（28秒到14秒之间）
-        if (!specialEventTriggered && currentCountdownTime <= specialEventTriggerTime)
+        // 检查特殊事件触发条件
+        if (!specialEventTriggered && currentTime <= specialEventTriggerTime && currentTime > 0)
         {
             TriggerSpecialEvent();
             specialEventTriggered = true;
         }
-        
-        // 倒计时结束
-        if (currentCountdownTime <= 0)
+    }
+    
+    /// <summary>
+    /// 获取UIManager的当前倒计时时间
+    /// </summary>
+    public float GetCurrentCountdownTime()
+    {
+        if (UIManager.Instance != null)
         {
-            currentCountdownTime = 0;
-            isCountdownActive = false;
-            Debug.Log("倒计时结束！");
+            return UIManager.Instance.GetCurrentTime();
         }
+        return 0f;
+    }
+    
+    /// <summary>
+    /// 重置事件触发状态（当新一轮开始时调用）
+    /// </summary>
+    public void ResetEventTriggers()
+    {
+        normalEventTriggered = false;
+        specialEventTriggered = false;
+        Debug.Log("RandomEventManager: 事件触发状态已重置");
     }
     
     /// <summary>
@@ -117,9 +120,9 @@ public class RandomEventManager : Singleton<RandomEventManager>
     /// </summary>
     private void TriggerNormalEvent()
     {
-        if (eventDatabase == null)
+        if (eventDatabase == null || optionPool == null)
         {
-            Debug.LogError("无法触发普通事件：事件数据库为空！");
+            Debug.LogError("无法触发普通事件：事件数据库或选项池为空！");
             return;
         }
         
@@ -127,8 +130,21 @@ public class RandomEventManager : Singleton<RandomEventManager>
         
         if (normalEvent != null)
         {
-            Debug.Log($"触发普通事件: {normalEvent.eventTitle}");
-            ShowEvent(normalEvent);
+            // 从选项池随机获取普通事件选项
+            EventOption randomOption = optionPool.GetRandomNormalOption();
+            
+            if (randomOption != null)
+            {
+                // 设置运行时选项
+                normalEvent.SetRuntimeOptions(new EventOption[] { randomOption });
+                
+                Debug.Log($"触发普通事件: {normalEvent.eventTitle}, 选项: {randomOption.optionText}");
+                ShowEvent(normalEvent);
+            }
+            else
+            {
+                Debug.LogWarning("没有可用的普通事件选项！");
+            }
         }
         else
         {
@@ -141,9 +157,9 @@ public class RandomEventManager : Singleton<RandomEventManager>
     /// </summary>
     private void TriggerSpecialEvent()
     {
-        if (eventDatabase == null)
+        if (eventDatabase == null || optionPool == null)
         {
-            Debug.LogError("无法触发特殊事件：事件数据库为空！");
+            Debug.LogError("无法触发特殊事件：事件数据库或选项池为空！");
             return;
         }
         
@@ -151,8 +167,22 @@ public class RandomEventManager : Singleton<RandomEventManager>
         
         if (specialEvent != null)
         {
-            Debug.Log($"触发特殊事件: {specialEvent.eventTitle}");
-            ShowEvent(specialEvent);
+            // 从选项池随机获取特殊事件选项
+            EventOption leftOption = optionPool.GetRandomSpecialOptionLeft();
+            EventOption rightOption = optionPool.GetRandomSpecialOptionRight();
+            
+            if (leftOption != null && rightOption != null)
+            {
+                // 设置运行时选项
+                specialEvent.SetRuntimeOptions(new EventOption[] { leftOption, rightOption });
+                
+                Debug.Log($"触发特殊事件: {specialEvent.eventTitle}, 左选项: {leftOption.optionText}, 右选项: {rightOption.optionText}");
+                ShowEvent(specialEvent);
+            }
+            else
+            {
+                Debug.LogWarning("没有可用的特殊事件选项！");
+            }
         }
         else
         {
@@ -170,10 +200,10 @@ public class RandomEventManager : Singleton<RandomEventManager>
             Debug.LogError("无法显示事件：RandomEvent UI引用为空！");
             return;
         }
-        
+
         currentEvent = eventData;
-        
-        // 根据事件类型显示不同的UI
+
+        // 根据事件类型显示不同的UI和动画
         if (eventData.eventType == EventType.Normal)
         {
             randomEventUI.ShowNormalEvent(eventData);
@@ -195,13 +225,14 @@ public class RandomEventManager : Singleton<RandomEventManager>
             return;
         }
         
-        if (optionIndex < 0 || optionIndex >= currentEvent.options.Length)
+        EventOption[] options = currentEvent.GetOptions();
+        if (options == null || optionIndex < 0 || optionIndex >= options.Length)
         {
             Debug.LogError($"选项索引超出范围: {optionIndex}");
             return;
         }
         
-        EventOption selectedOption = currentEvent.options[optionIndex];
+        EventOption selectedOption = options[optionIndex];
         
         Debug.Log($"选择了选项: {selectedOption.optionText}");
         
@@ -237,19 +268,11 @@ public class RandomEventManager : Singleton<RandomEventManager>
     }
     
     /// <summary>
-    /// 获取当前倒计时时间（供UI显示）
-    /// </summary>
-    public float GetCurrentCountdownTime()
-    {
-        return currentCountdownTime;
-    }
-    
-    /// <summary>
-    /// 获取倒计时是否激活
+    /// 检查倒计时是否激活
     /// </summary>
     public bool IsCountdownActive()
     {
-        return isCountdownActive;
+        return UIManager.Instance != null && !UIManager.Instance.isPaused;
     }
     
     /// <summary>

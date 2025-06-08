@@ -33,7 +33,10 @@ public class GameManager : Singleton<GameManager>//,IPointerClickHandler
     public CollectResources collectResources;
     public RandomEvent randomEvent;
     
-
+    [Header("===== 游戏轮次管理 =====")]
+    private int currentRound = 1;        // 当前轮次
+    private int maxRounds = 7;           // 最大轮次
+    
 
     protected override void Start()
     {
@@ -78,10 +81,71 @@ public class GameManager : Singleton<GameManager>//,IPointerClickHandler
         Debug.Log("GameManager : 跃迁完成");
         HandleOnWormhole(false);
         
+        // 轮次递增逻辑
+        currentRound++;
+        Debug.Log($"当前轮次：{currentRound}");
+        
+        // 检查是否达到最大轮次
+        if (currentRound > maxRounds)
+        {
+            // 游戏结束，进入结束场景
+            HandleGameEnd();
+            return;
+        }
+        
+        // 刷新星球池
+        RefreshStarPool();
         
         //UIManager.Instance.TogglePause(false);
+    }
+    
+    // 新增：刷新星球池方法
+    private void RefreshStarPool()
+    {
+        if (StarPoolManager.Instance != null)
+        {
+            // 通知StarPoolManager当前轮次
+            StarPoolManager.Instance.SetCurrentRound(currentRound);
+            
+            // 获取新的星球信息
+            StarInfo[] newStarInfos = StarPoolManager.Instance.GetRandomStarInfosForRound();
+            
+            // 通知RollingUI刷新
+            RollingUI rollingUI = FindObjectOfType<RollingUI>();
+            if (rollingUI != null)
+            {
+                rollingUI.RefreshStarOptions(newStarInfos);
+            }
+        }
+    }
+    
+    // 新增：游戏结束处理
+    private void HandleGameEnd()
+    {
+        Debug.Log("游戏结束！进入结束场景");
         
+        // 触发游戏结束事件
+        //OnGameEnd?.Invoke();
         
+        // 这里可以添加进入结束场景的逻辑
+        // 例如：SceneManager.LoadScene("EndScene");
+        // 或者显示结束UI等
+        
+        // 临时实现：显示结束信息
+        PopupText("游戏结束！恭喜完成所有轮次！", 0);
+    }
+    
+    // 新增：获取当前轮次的公共方法
+    public int GetCurrentRound()
+    {
+        return currentRound;
+    }
+    
+    // 新增：重置游戏轮次（用于重新开始游戏）
+    public void ResetGameRounds()
+    {
+        currentRound = 1;
+        Debug.Log("游戏轮次已重置");
     }
 
     private void HandleOnWormhole(bool _isOnWormhole)
@@ -126,10 +190,9 @@ public class GameManager : Singleton<GameManager>//,IPointerClickHandler
     {
         
     }
-
     
     
-
+    
     public void DialogueOSPanelTutorial()
     {
         flowchart.ExecuteBlock("T2");
@@ -161,8 +224,11 @@ public class GameManager : Singleton<GameManager>//,IPointerClickHandler
             return;
         }
         
+        // 先显示界面
         UIManager.Instance.ShowStarSelectCanvas();
         
+        // 然后刷新星球池（这样刷新会在界面激活后进行）
+        RefreshStarPool();
     }
     
     

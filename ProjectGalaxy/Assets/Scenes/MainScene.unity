@@ -7063,7 +7063,7 @@ MonoBehaviour:
   wormholeImage: {fileID: 92406871}
   wormholeImage2: {fileID: 1992047269}
   wormholeImageOrigin: {fileID: 92406871}
-  selectedPlanetPanel: {fileID: 0}
+  selectedPlanetPanel: {fileID: 779296741}
   flowchart: {fileID: 208951076}
   collectResources: {fileID: 178294539}
   randomEvent: {fileID: 0}

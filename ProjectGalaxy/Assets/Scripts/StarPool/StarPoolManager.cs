@@ -53,6 +53,9 @@ public class StarPoolManager : MonoBehaviour
     // 新增：当前轮次选中的星球信息
     private StarInfo[] currentRoundStarInfos;
     
+    [Header("轮次管理")]
+    private int currentRound = 1;
+    
     private const string SAVE_KEY = "StarPoolData";
     
     private void Awake()
@@ -101,42 +104,6 @@ public class StarPoolManager : MonoBehaviour
         }
     }
     
-    // 修改：返回StarInfo数组而不是Sprite数组
-    public StarInfo[] GetRandomStarInfosForRound()
-    {
-        StarInfo[] selectedStarInfos = new StarInfo[7];
-        
-        for (int groupIndex = 0; groupIndex < 7; groupIndex++)
-        {
-            if (starGroups[groupIndex].availableIndices.Count > 0)
-            {
-                // 从可用索引中随机选择一个
-                int randomIndex = Random.Range(0, starGroups[groupIndex].availableIndices.Count);
-                int selectedStarIndex = starGroups[groupIndex].availableIndices[randomIndex];
-                
-                // 获取选中的星球信息
-                selectedStarInfos[groupIndex] = starGroups[groupIndex].starInfos[selectedStarIndex];
-                
-                // 从可用列表中移除已选择的星球
-                starGroups[groupIndex].availableIndices.RemoveAt(randomIndex);
-                
-                //Debug.Log($"第{groupIndex + 1}组选择了星球: {selectedStarInfos[groupIndex].folderName}");
-            }
-            else
-            {
-                Debug.LogWarning($"第{groupIndex + 1}组星球已全部使用完毕！");
-                // 可以考虑重置该组或使用默认贴图
-            }
-        }
-        
-        // 保存当前轮次的星球信息
-        currentRoundStarInfos = selectedStarInfos;
-        
-        // 保存当前状态
-        SaveStarPoolState();
-        
-        return selectedStarInfos;
-    }
     
     // 兼容性方法：返回Sprite数组（供现有代码使用）
     public Sprite[] GetRandomStarsForRound()
@@ -218,5 +185,71 @@ public class StarPoolManager : MonoBehaviour
         {
             Debug.Log($"第{i + 1}组剩余星球数量: {starGroups[i].availableIndices.Count}");
         }
+    }
+    
+    // 新增：设置当前轮次
+    public void SetCurrentRound(int round)
+    {
+        currentRound = round;
+        Debug.Log($"StarPoolManager: 设置当前轮次为 {currentRound}");
+    }
+    
+    // 修改：根据轮次获取星球信息
+    public StarInfo[] GetRandomStarInfosForRound()
+    {
+        StarInfo[] selectedStarInfos = new StarInfo[7];
+        
+        // 计算当前轮次每组可用的星球数量
+        int starsPerGroup = 8 - currentRound; // 第1轮7个，第2轮6个...第7轮1个
+        
+        Debug.Log($"第{currentRound}轮：每组{starsPerGroup}个星球");
+        
+        for (int groupIndex = 0; groupIndex < 7; groupIndex++)
+        {
+            if (starGroups[groupIndex].availableIndices.Count > 0)
+            {
+                // 从可用索引中随机选择一个
+                int randomIndex = Random.Range(0, starGroups[groupIndex].availableIndices.Count);
+                int selectedStarIndex = starGroups[groupIndex].availableIndices[randomIndex];
+                
+                // 获取选中的星球信息
+                selectedStarInfos[groupIndex] = starGroups[groupIndex].starInfos[selectedStarIndex];
+                
+                // 从可用列表中移除已选择的星球
+                starGroups[groupIndex].availableIndices.RemoveAt(randomIndex);
+                
+                Debug.Log($"第{groupIndex + 1}组选择了星球: {selectedStarInfos[groupIndex].folderName}");
+            }
+            else
+            {
+                Debug.LogWarning($"第{groupIndex + 1}组星球已全部使用完毕！");
+                // 如果某组星球用完了，可以考虑从其他组补充或使用默认星球
+            }
+        }
+        
+        // 保存当前轮次的星球信息
+        currentRoundStarInfos = selectedStarInfos;
+        
+        // 保存当前状态
+        SaveStarPoolState();
+        
+        return selectedStarInfos;
+    }
+    
+    // 新增：获取当前轮次
+    public int GetCurrentRound()
+    {
+        return currentRound;
+    }
+    
+    // 新增：获取当前轮次剩余星球数量
+    public int GetRemainingStarsInCurrentRound()
+    {
+        int total = 0;
+        foreach (var group in starGroups)
+        {
+            total += group.availableIndices.Count;
+        }
+        return total;
     }
 }

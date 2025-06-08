@@ -447,7 +447,62 @@ public class RollingUI : MonoBehaviour
         }
     }
 
-    // 新增：根据选项索引获取星球信息的公共方法
+    // 新增：刷新星球选项方法
+    public void RefreshStarOptions(StarInfo[] newStarInfos)
+    {
+        Debug.Log("RollingUI: 开始刷新星球选项");
+        
+        // 更新当前轮次的星球信息
+        currentRoundStarInfos = newStarInfos;
+        
+        // 重新设置所有mask图片
+        for (int i = 0; i < optionNum && i < newStarInfos.Length; i++)
+        {
+            SetMaskImage(i);
+            
+            // 更新星球的Animator Controller
+            UpdateStarAnimator(i, newStarInfos[i]);
+        }
+        
+        Debug.Log("RollingUI: 星球选项刷新完成");
+    }
+    
+    // 新增：更新星球动画控制器
+    private void UpdateStarAnimator(int index, StarInfo starInfo)
+    {
+        if (starInfo == null || index >= options.Length) return;
+        
+        // 获取星球选项的Animator组件
+        Animator animator = options[index].GetComponent<Animator>();
+        if (animator == null)
+        {
+            // 如果没有Animator组件，尝试在子对象中查找
+            animator = options[index].GetComponentInChildren<Animator>();
+        }
+        
+        if (animator != null)
+        {
+            // 根据星球文件夹名称加载对应的Animator Controller
+            string controllerPath = $"AnimatorControllers/{starInfo.folderName}_Controller";
+            RuntimeAnimatorController controller = Resources.Load<RuntimeAnimatorController>(controllerPath);
+            
+            if (controller != null)
+            {
+                animator.runtimeAnimatorController = controller;
+                Debug.Log($"为选项 {index} 设置了动画控制器: {controllerPath}");
+            }
+            else
+            {
+                Debug.LogWarning($"无法找到动画控制器: {controllerPath}");
+            }
+        }
+        else
+        {
+            Debug.LogWarning($"选项 {index} 没有找到Animator组件");
+        }
+    }
+
+    // 根据选项索引获取星球信息的公共方法
     public StarInfo GetStarInfoByIndex(int index)
     {
         if (currentRoundStarInfos != null && index >= 0 && index < currentRoundStarInfos.Length)

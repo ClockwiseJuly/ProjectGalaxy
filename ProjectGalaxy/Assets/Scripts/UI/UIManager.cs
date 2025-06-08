@@ -283,6 +283,14 @@ public class UIManager : Singleton<UIManager>
     {
         Debug.Log("UIManager: 正在显示星球选择界面...");
         
+        // 移除这里的星球刷新逻辑，因为GameManager已经处理了
+        // RollingUI rollingUI = FindObjectOfType<RollingUI>();
+        // if (rollingUI != null && StarPoolManager.Instance != null)
+        // {
+        //     StarInfo[] newStarInfos = StarPoolManager.Instance.GetRandomStarInfosForRound();
+        //     rollingUI.RefreshStarOptions(newStarInfos);
+        // }
+        
         // 隐藏Canvas StarInteract
         if (canvasStarInteract != null)
         {

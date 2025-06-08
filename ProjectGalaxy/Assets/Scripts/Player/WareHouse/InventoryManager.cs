@@ -19,6 +19,10 @@ public class InventoryManager : Singleton<InventoryManager>
     
     public void AddItem(GameData.Item newItem, int amount)
     {
+        if(amount <=0)
+            return;
+        
+        
         //检查背包是否有该物品
         var existingItem = gameData.warehouse.Find(item => item.name == newItem.name);
         if (existingItem != null)

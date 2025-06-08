@@ -82,6 +82,24 @@ public class ToolTipFunc : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
                     
                     _content = content + value;
                 }
+                else if (gameObject.name == "飞船耐久BG")
+                {
+                    float shipHP = GameDataManager.Instance.maxShipHP *
+                                  gameObject.transform.GetChild(0).GetComponent<Image>().fillAmount;
+                    
+                    string value = Mathf.FloorToInt(shipHP).ToString();
+                    
+                    _content = content + value;
+                }
+                else if (gameObject.name == "飞船燃料BG")
+                {
+                    float shipFuel = GameDataManager.Instance.maxShipFuel *
+                                  gameObject.transform.GetChild(0).GetComponent<Image>().fillAmount;
+                    
+                    string value = Mathf.FloorToInt(shipFuel).ToString();
+                    
+                    _content = content + value;
+                }
                 
                 
                 ToolTipSystem.Show(_content, _header);

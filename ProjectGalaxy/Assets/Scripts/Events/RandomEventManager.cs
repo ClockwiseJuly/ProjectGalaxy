@@ -143,30 +143,53 @@ public class RandomEventManager : Singleton<RandomEventManager>
             Debug.LogError("无法触发普通事件：事件数据库或选项池为空！");
             return;
         }
+    
+        // 随机选择一个事件索引
+        int eventIndex = Random.Range(1, 10); // 假设有Normal1到Normal9
         
-        RandomEventData normalEvent = eventDatabase.GetRandomNormalEvent();
+        RandomEventData normalEvent = eventDatabase.GetNormalEventByIndex(eventIndex);
         
         if (normalEvent != null)
         {
-            // 从选项池随机获取普通事件选项
-            EventOption randomOption = optionPool.GetRandomNormalOption();
+            // 根据事件索引获取对应的选项
+            EventOption matchingOption = optionPool.GetNormalOptionByIndex(eventIndex);
             
-            if (randomOption != null)
+            if (matchingOption != null)
             {
                 // 设置运行时选项
-                normalEvent.SetRuntimeOptions(new EventOption[] { randomOption });
+                normalEvent.SetRuntimeOptions(new EventOption[] { matchingOption });
                 
-                Debug.Log($"触发普通事件: {normalEvent.eventTitle}, 选项: {randomOption.optionText}");
+                Debug.Log($"触发普通事件: {normalEvent.eventTitle} (索引: {eventIndex}), 选项: {matchingOption.optionText}");
                 ShowEvent(normalEvent);
             }
             else
             {
-                Debug.LogWarning("没有可用的普通事件选项！");
+                Debug.LogWarning($"没有找到索引为 {eventIndex} 的普通事件选项！");
+                // 如果没有找到匹配的选项，回退到随机选择
+                EventOption randomOption = optionPool.GetRandomNormalOption();
+                if (randomOption != null)
+                {
+                    normalEvent.SetRuntimeOptions(new EventOption[] { randomOption });
+                    Debug.Log($"使用随机选项: {randomOption.optionText}");
+                    ShowEvent(normalEvent);
+                }
             }
         }
         else
         {
-            Debug.LogWarning("没有可用的普通事件！");
+            Debug.LogWarning($"没有找到索引为 {eventIndex} 的普通事件！");
+            // 如果没有找到匹配的事件，回退到随机选择
+            RandomEventData randomEvent = eventDatabase.GetRandomNormalEvent();
+            if (randomEvent != null)
+            {
+                EventOption randomOption = optionPool.GetRandomNormalOption();
+                if (randomOption != null)
+                {
+                    randomEvent.SetRuntimeOptions(new EventOption[] { randomOption });
+                    Debug.Log($"使用随机事件和选项: {randomEvent.eventTitle}, {randomOption.optionText}");
+                    ShowEvent(randomEvent);
+                }
+            }
         }
     }
     
@@ -180,31 +203,56 @@ public class RandomEventManager : Singleton<RandomEventManager>
             Debug.LogError("无法触发特殊事件：事件数据库或选项池为空！");
             return;
         }
+    
+        // 随机选择一个事件索引
+        int eventIndex = Random.Range(1, 10); // 假设有Special1到Special9
         
-        RandomEventData specialEvent = eventDatabase.GetRandomSpecialEvent();
+        RandomEventData specialEvent = eventDatabase.GetSpecialEventByIndex(eventIndex);
         
         if (specialEvent != null)
         {
-            // 从选项池随机获取特殊事件选项
-            EventOption leftOption = optionPool.GetRandomSpecialOptionLeft();
-            EventOption rightOption = optionPool.GetRandomSpecialOptionRight();
+            // 根据事件索引获取对应的选项
+            EventOption leftOption = optionPool.GetSpecialOptionLeftByIndex(eventIndex);
+            EventOption rightOption = optionPool.GetSpecialOptionRightByIndex(eventIndex);
             
             if (leftOption != null && rightOption != null)
             {
                 // 设置运行时选项
                 specialEvent.SetRuntimeOptions(new EventOption[] { leftOption, rightOption });
                 
-                Debug.Log($"触发特殊事件: {specialEvent.eventTitle}, 左选项: {leftOption.optionText}, 右选项: {rightOption.optionText}");
+                Debug.Log($"触发特殊事件: {specialEvent.eventTitle} (索引: {eventIndex}), 左选项: {leftOption.optionText}, 右选项: {rightOption.optionText}");
                 ShowEvent(specialEvent);
             }
             else
             {
-                Debug.LogWarning("没有可用的特殊事件选项！");
+                Debug.LogWarning($"没有找到索引为 {eventIndex} 的特殊事件选项！");
+                // 如果没有找到匹配的选项，回退到随机选择
+                EventOption randomLeftOption = optionPool.GetRandomSpecialOptionLeft();
+                EventOption randomRightOption = optionPool.GetRandomSpecialOptionRight();
+                if (randomLeftOption != null && randomRightOption != null)
+                {
+                    specialEvent.SetRuntimeOptions(new EventOption[] { randomLeftOption, randomRightOption });
+                    Debug.Log($"使用随机选项: {randomLeftOption.optionText}, {randomRightOption.optionText}");
+                    ShowEvent(specialEvent);
+                }
             }
         }
         else
         {
-            Debug.LogWarning("没有可用的特殊事件！");
+            Debug.LogWarning($"没有找到索引为 {eventIndex} 的特殊事件！");
+            // 如果没有找到匹配的事件，回退到随机选择
+            RandomEventData randomEvent = eventDatabase.GetRandomSpecialEvent();
+            if (randomEvent != null)
+            {
+                EventOption randomLeftOption = optionPool.GetRandomSpecialOptionLeft();
+                EventOption randomRightOption = optionPool.GetRandomSpecialOptionRight();
+                if (randomLeftOption != null && randomRightOption != null)
+                {
+                    randomEvent.SetRuntimeOptions(new EventOption[] { randomLeftOption, randomRightOption });
+                    Debug.Log($"使用随机事件和选项: {randomEvent.eventTitle}, {randomLeftOption.optionText}, {randomRightOption.optionText}");
+                    ShowEvent(randomEvent);
+                }
+            }
         }
     }
     

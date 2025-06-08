@@ -105,4 +105,62 @@ public class RandomEventDatabase : ScriptableObject
         
         Debug.Log("所有事件状态已重置");
     }
+    
+    /// <summary>
+    /// 根据名字中的数字索引获取普通事件
+    /// </summary>
+    public RandomEventData GetNormalEventByIndex(int index)
+    {
+        foreach (var eventData in normalEvents)
+        {
+            if (eventData != null && !eventData.hasBeenTriggered && eventData.IsValid())
+            {
+                // 从事件名字中提取数字
+                string eventName = eventData.name;
+                if (ExtractNumberFromName(eventName) == index)
+                {
+                    eventData.hasBeenTriggered = true;
+                    return eventData;
+                }
+            }
+        }
+        return null;
+    }
+    
+    /// <summary>
+    /// 根据名字中的数字索引获取特殊事件
+    /// </summary>
+    public RandomEventData GetSpecialEventByIndex(int index)
+    {
+        foreach (var eventData in specialEvents)
+        {
+            if (eventData != null && !eventData.hasBeenTriggered && eventData.IsValid())
+            {
+                // 从事件名字中提取数字
+                string eventName = eventData.name;
+                if (ExtractNumberFromName(eventName) == index)
+                {
+                    eventData.hasBeenTriggered = true;
+                    return eventData;
+                }
+            }
+        }
+        return null;
+    }
+    
+    /// <summary>
+    /// 从名字中提取数字索引
+    /// </summary>
+    private int ExtractNumberFromName(string name)
+    {
+        if (string.IsNullOrEmpty(name)) return -1;
+        
+        // 使用正则表达式提取数字
+        var match = System.Text.RegularExpressions.Regex.Match(name, @"\d+");
+        if (match.Success)
+        {
+            return int.Parse(match.Value);
+        }
+        return -1;
+    }
 }

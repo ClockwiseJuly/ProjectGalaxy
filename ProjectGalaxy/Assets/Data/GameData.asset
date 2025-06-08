@@ -33,35 +33,5 @@ MonoBehaviour:
     description: "\u7ED9\u98DE\u8239\u63D0\u4F9B\u71C3\u6599"
     amount: 10
     canUse: 1
-  - icon: {fileID: 1462603523, guid: 0f4596c68e43ff441b901b64f88f31c4, type: 3}
-    name: "\u7EFF\u690D"
-    description: 
-    amount: 1
-    canUse: 0
-  - icon: {fileID: -383565876, guid: cbe8732060b5afe40bad2a5904a4d14d, type: 3}
-    name: "\u65E0\u673A\u77FF\u7269"
-    description: 
-    amount: 1
-    canUse: 0
-  - icon: {fileID: 1253164568, guid: 5221482d87926794da388a90488befe0, type: 3}
-    name: "\u6709\u673A\u77FF\u7269"
-    description: 
-    amount: 2
-    canUse: 0
-  - icon: {fileID: -1784141824, guid: 17ee5616ca348144a81d741a884b19e0, type: 3}
-    name: "\u7A00\u571F"
-    description: 
-    amount: 0
-    canUse: 0
-  - icon: {fileID: 878826956, guid: d8301f3502303804d80273391553e698, type: 3}
-    name: "\u5B9E\u9A8C\u6027\u836F\u5242"
-    description: 
-    amount: 1
-    canUse: 0
-  - icon: {fileID: 1358302658, guid: f4f47678e83543c4c8342e23c161bb5d, type: 3}
-    name: "\u53EF\u71C3\u51B0"
-    description: 
-    amount: 0
-    canUse: 0
   playedIntro: 1
   osPaneltutorialtaught: 1

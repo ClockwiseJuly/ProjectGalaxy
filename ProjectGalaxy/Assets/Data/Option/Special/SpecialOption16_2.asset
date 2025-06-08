@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14f3c1b36e13a524a9100c627b34946b, type: 3}
   m_Name: SpecialOption16_2
   m_EditorClassIdentifier: 
-  optionText: "\u8DC3\u8FC1\u9003\u79BB\uFF1A\u96C6\u88C5\u7BB1\u7206\u70B8\uFF0C\u98DE\u8239\u8010\u4E45\u51CF\u5C11"
+  optionText: "\u8DC3\u8FC1\u9003\u79BB"
   eventEffect: {fileID: 11400000, guid: 7c1412121e2b8a846ae76a3467c3b10e, type: 2}
   resultText: 

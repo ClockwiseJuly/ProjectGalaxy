@@ -17,8 +17,8 @@ public class GameDataManager : Singleton<GameDataManager>
     public int nowShipHP = 100;
     public int maxShipFuel = 100;
     public int nowShipFuel = 100;
-    public Slider HPSlider;
-    public Slider SANSlider;
+    public Image HPSlider;
+    public Image SANSlider;
     public Image shipHPImg;
     public Image shipFuelImg;
     
@@ -39,8 +39,8 @@ public class GameDataManager : Singleton<GameDataManager>
 
     private void Update()
     {
-        HPSlider.value = nowHP;
-        SANSlider.value = nowSAN;
+        HPSlider.fillAmount = nowHP/(float)maxHP;
+        SANSlider.fillAmount = nowSAN/(float)maxSAN;
     }
 
     public int ChangeHP(int value)

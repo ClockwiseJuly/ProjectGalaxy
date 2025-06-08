@@ -9,7 +9,8 @@ public class MouseHover : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler
     public enum UIType
     {
         none,
-        functional
+        functional,
+        item,
     }
 
     public UIType uiType ;
@@ -38,10 +39,32 @@ public class MouseHover : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler
         AudioManager.Instance.PlaySFX(4);
         
         _scaleTween?.Kill(); // 打断之前的动画
+
+        if (uiType == UIType.item)
+        {
+            if (gameObject.GetComponentInParent<WareHouseItem>() != null)
+            {
+                if (gameObject.GetComponentInParent<WareHouseItem>().hasItem)
+                {
+                    _scaleTween = transform.DOScale(_originalScale * hoverScale, scaleDuration)
+                        .SetEase(easeType)
+                        .SetUpdate(true); // 无视Time.timeScale
+                }
+                else
+                {
+                    return;
+                }
+            }
+            
+        }
+        else
+        {
+            _scaleTween = transform.DOScale(_originalScale * hoverScale, scaleDuration)
+                .SetEase(easeType)
+                .SetUpdate(true); // 无视Time.timeScale
+        }
         
-        _scaleTween = transform.DOScale(_originalScale * hoverScale, scaleDuration)
-            .SetEase(easeType)
-            .SetUpdate(true); // 无视Time.timeScale
+        
     }
 
     public void OnPointerExit(PointerEventData eventData)

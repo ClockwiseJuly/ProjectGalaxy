@@ -22,6 +22,8 @@ public class GameManager : Singleton<GameManager>//,IPointerClickHandler
     public Image wormholeImage;
     public Image wormholeImage2;
     public Image wormholeImageOrigin;
+
+    public bool canDriveShip = true;
     
     [Header("===== 选择星球 =====")]
     public GameObject selectedPlanetPanel;

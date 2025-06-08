@@ -28,6 +28,8 @@ public class AudioManager : Singleton<AudioManager>
     private void OnEnable()
     {
         //check scene index and play bgm
+        if(SceneManager.GetActiveScene().buildIndex == 0)
+            AudioManager.Instance.PlayBGM(1);
         
     }
 

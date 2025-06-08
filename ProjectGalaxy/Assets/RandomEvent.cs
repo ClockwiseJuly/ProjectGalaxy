@@ -292,6 +292,8 @@ public class RandomEvent : MonoBehaviour
     // 优化返回原始位置方法
     public void ReturnToOriginal()
     {
+        GameManager.Instance.canDriveShip = true;
+        
         StartCoroutine(AnimateMoveMultiple(new RectTransform[] 
         {
             leftImage.image,

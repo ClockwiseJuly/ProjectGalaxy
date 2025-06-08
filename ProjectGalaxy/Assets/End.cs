@@ -21,6 +21,7 @@ public class End : MonoBehaviour
             hpDownEnd.SetActive(true);
             UIManager.Instance.Pause();
             GameDataManager.Instance.endTriggered = true;
+            AudioManager.Instance.PlayBGM(1);
             return;
         }
         else if (GameDataManager.Instance.nowSAN <= 0)
@@ -28,6 +29,7 @@ public class End : MonoBehaviour
             sanDownEnd.SetActive(true);
             UIManager.Instance.Pause();
             GameDataManager.Instance.endTriggered = true;
+            AudioManager.Instance.PlayBGM(1);
             return;
         }
         else if (GameDataManager.Instance.nowShipHP <= 0)
@@ -35,6 +37,7 @@ public class End : MonoBehaviour
             shipHPDownEnd.SetActive(true);
             UIManager.Instance.Pause();
             GameDataManager.Instance.endTriggered = true;
+            AudioManager.Instance.PlayBGM(1);
             return;
         }
         else if(GameDataManager.Instance.nowShipFuel <= 0)
@@ -42,6 +45,7 @@ public class End : MonoBehaviour
             shipFuelDownEnd.SetActive(true);
             UIManager.Instance.Pause();
             GameDataManager.Instance.endTriggered = true;
+            AudioManager.Instance.PlayBGM(1);
             return;
         }
         
@@ -54,6 +58,7 @@ public class End : MonoBehaviour
             UIManager.Instance.Pause();
             trueEnd.SetActive(true);
             GameDataManager.Instance.endTriggered = true;
+            AudioManager.Instance.PlayBGM(1);
             return;
         }
         

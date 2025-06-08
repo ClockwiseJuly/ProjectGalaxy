@@ -213,6 +213,8 @@ public class RandomEventManager : Singleton<RandomEventManager>
     /// </summary>
     private void ShowEvent(RandomEventData eventData)
     {
+        GameManager.Instance.canDriveShip = false;
+        
         if (randomEventUI == null)
         {
             Debug.LogError("无法显示事件：RandomEvent UI引用为空！");

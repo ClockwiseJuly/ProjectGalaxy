@@ -42,6 +42,16 @@ public class GameDataManager : Singleton<GameDataManager>
     {
         HPSlider.fillAmount = nowHP/(float)maxHP;
         SANSlider.fillAmount = nowSAN/(float)maxSAN;
+
+        if (shipHPImg.isActiveAndEnabled)
+        {
+            shipHPImg.fillAmount = nowShipHP/(float)maxShipHP;
+        }
+        
+        if (shipFuelImg.isActiveAndEnabled)
+        {
+            shipFuelImg.fillAmount = nowShipFuel/(float)maxShipFuel;
+        }
     }
 
     public int ChangeHP(int value)

@@ -85,9 +85,15 @@ public class UIManager : Singleton<UIManager>
                 Debug.Log("跃迁倒计时结束！");
                 //可以添加结束时的逻辑
                 collectResources.EndGame();
-                
-                if(!GameDataManager.Instance.endTriggered)
+
+                if (!GameDataManager.Instance.endTriggered)//状态自然减少
+                {
+                    GameDataManager.Instance.ChangeHP(-10);
+                    GameDataManager.Instance.ChangeSAN(-10);
+                    GameDataManager.Instance.ChangeShipHP(-10);
+                    GameDataManager.Instance.ChangeShipFuel(-10);
                     EffectManager.Instance.CallTraverse();
+                }
             }
         }
     }

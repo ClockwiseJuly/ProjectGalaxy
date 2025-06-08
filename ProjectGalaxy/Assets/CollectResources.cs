@@ -100,6 +100,9 @@ public class CollectResources : MonoBehaviour
 
     void HandleMovement()
     {
+        if(!GameManager.Instance.canDriveShip)
+            return;
+        
         float moveInput = Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow) ? 1f : 
                          Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow) ? -1f : 0f;
         

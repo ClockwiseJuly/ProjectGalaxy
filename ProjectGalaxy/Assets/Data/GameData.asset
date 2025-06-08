@@ -33,5 +33,5 @@ MonoBehaviour:
     description: "\u7ED9\u98DE\u8239\u63D0\u4F9B\u71C3\u6599"
     amount: 2
     canUse: 1
-  playedIntro: 0
-  osPaneltutorialtaught: 0
+  playedIntro: 1
+  osPaneltutorialtaught: 1

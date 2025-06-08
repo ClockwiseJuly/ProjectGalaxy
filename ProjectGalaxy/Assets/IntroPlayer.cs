@@ -53,6 +53,19 @@ public class IntroPlayer : MonoBehaviour
 
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            introPlayer.SetActive(false);
+            GameDataManager.Instance.gameData.playedIntro = true;
+            introPlayer.gameObject.SetActive(false);
+            flowchart.ExecuteBlock("T1");
+            AudioManager.Instance.PlayBGM(2);
+            gameObject.SetActive(false);
+        }
+    }
+
 
     private void OnEnable()
     {

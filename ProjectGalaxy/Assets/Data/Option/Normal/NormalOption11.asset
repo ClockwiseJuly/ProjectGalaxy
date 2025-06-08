@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14f3c1b36e13a524a9100c627b34946b, type: 3}
+  m_Name: NormalOption11
+  m_EditorClassIdentifier: 
+  optionText: "\u91D1\u5C5E\u5408\u91D1\u7B49\u7269\u8D44\u51CF\u5C11"
+  eventEffect: {fileID: 11400000, guid: 7c1412121e2b8a846ae76a3467c3b10e, type: 2}
+  resultText: 

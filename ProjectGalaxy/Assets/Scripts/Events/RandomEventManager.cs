@@ -27,7 +27,7 @@ public class RandomEventManager : Singleton<RandomEventManager>
     protected override void Awake()
     {
         base.Awake();
-        
+        DontDestroyOnLoad(gameObject); // 持久化本对象
         // 如果没有设置RandomEvent引用，尝试自动查找
         if (randomEventUI == null)
         {
@@ -57,6 +57,24 @@ public class RandomEventManager : Singleton<RandomEventManager>
         
         // 重置事件触发状态
         ResetEventTriggers();
+        
+        // 订阅跃迁完成事件，在每轮开始时重置事件触发状态
+        GameEvent.OnTraverseCompleted += OnNewRoundStarted;
+    }
+    
+    private void OnDestroy()
+    {
+        // 取消订阅事件
+        GameEvent.OnTraverseCompleted -= OnNewRoundStarted;
+    }
+    
+    /// <summary>
+    /// 新轮次开始时调用，重置事件触发状态
+    /// </summary>
+    private void OnNewRoundStarted()
+    {
+        ResetEventTriggers();
+        Debug.Log("RandomEventManager: 新轮次开始，事件触发状态已重置");
     }
     
     private void Update()
@@ -106,7 +124,7 @@ public class RandomEventManager : Singleton<RandomEventManager>
     }
     
     /// <summary>
-    /// 重置事件触发状态（当新一轮开始时调用）
+    /// 重置事件触发状态（当一轮开始时调用）
     /// </summary>
     public void ResetEventTriggers()
     {

@@ -61,6 +61,7 @@ public class WareHouseItem : MonoBehaviour,IPointerEnterHandler,IPointerExitHand
         {
             Debug.Log("Detected Item");
             WareHouseItem thisItem = eventData.pointerClick.GetComponentInChildren<WareHouseItem>();
+            InventoryManager.Instance.thisItem = gameData.warehouse[gameObject.transform.GetSiblingIndex()];
             if (thisItem.hasItem && thisItem.canUse)
             {
                 Debug.Log("can use");

@@ -7,6 +7,7 @@ public class InventoryManager : Singleton<InventoryManager>
     public GameData gameData;
     public Inventory inventory;
     public ItemUseConfirm popupConfirmPanel;
+    public GameData.Item thisItem;
     
     public GameData.Item[] items;
     
@@ -209,6 +210,17 @@ public class InventoryManager : Singleton<InventoryManager>
             int randomNum = UnityEngine.Random.Range(0, 3);
             
             InventoryManager.Instance.AddItem(items[9], randomNum);//稀土
+        }
+    }
+
+    public void ConfirmUseThisItem()
+    {
+        
+        if (thisItem != null)
+        {
+            thisItem.amount -= 1;
+            Debug.Log($"已使用{thisItem.name}");
+            inventory.DisplayItems();
         }
     }
 }
